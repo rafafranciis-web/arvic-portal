@@ -1,12 +1,13 @@
 // Catálogo completo de serviços da Arvic Group.
 // Rafael edita aqui quando lançar um novo serviço.
 window.ARVIC_SERVICES = [
+  // Conteúdo ---------------------------------------------------------------
   {
     id: "roteiros",
     titulo: "Roteirização de Vídeos",
     categoria: "Conteúdo",
     descricao:
-      "Roteiros estratégicos de vídeos para redes sociais, pensados pra engajamento e conversão.",
+      "Roteiros estratégicos e scripts personalizados, alinhados à mensagem e aos objetivos da marca.",
   },
   {
     id: "gravacao",
@@ -16,21 +17,24 @@ window.ARVIC_SERVICES = [
   },
   {
     id: "edicao",
-    titulo: "Edição de Vídeo",
+    titulo: "Edição de Alto Impacto",
     categoria: "Conteúdo",
-    descricao: "Edição profissional, legendas, cortes otimizados para Reels e Shorts.",
+    descricao:
+      "Cortes dinâmicos, efeitos visuais, transições suaves e correção de cor para Reels, Shorts e anúncios.",
   },
   {
     id: "postagem",
-    titulo: "Postagem em Redes Sociais",
+    titulo: "Gestão de Redes Sociais",
     categoria: "Conteúdo",
-    descricao: "Planejamento de publicação, copy, hashtags e cronograma.",
+    descricao:
+      "Planejamento editorial, cronograma, publicação e interação com o público.",
   },
+  // Design ------------------------------------------------------------------
   {
     id: "artes",
     titulo: "Artes para Redes Sociais",
     categoria: "Design",
-    descricao: "Posts estáticos, banners, identidade visual aplicada.",
+    descricao: "Posts orgânicos, banners e identidade visual aplicada.",
   },
   {
     id: "carrosseis",
@@ -39,11 +43,41 @@ window.ARVIC_SERVICES = [
     descricao: "Carrosséis educativos e de conversão para Instagram e LinkedIn.",
   },
   {
+    id: "artes-anuncios",
+    titulo: "Artes para Anúncios",
+    categoria: "Design",
+    descricao:
+      "Peças visuais otimizadas para conversão em campanhas pagas no Google e Meta.",
+  },
+  {
+    id: "videos-anuncios",
+    titulo: "Vídeos Animados para Anúncios",
+    categoria: "Design",
+    descricao:
+      "Vídeos dinâmicos e animados criados para impacto imediato em campanhas pagas.",
+  },
+  // Copy --------------------------------------------------------------------
+  {
+    id: "copywriting",
+    titulo: "Copywriting para Posts e Anúncios",
+    categoria: "Copy",
+    descricao:
+      "Textos persuasivos que capturam atenção, comunicam o diferencial e incentivam a ação.",
+  },
+  {
+    id: "email-marketing",
+    titulo: "Escrita Criativa para Email Marketing",
+    categoria: "Copy",
+    descricao:
+      "E-mails personalizados por estágio da jornada do cliente, com foco em conversão.",
+  },
+  // Mídia Paga --------------------------------------------------------------
+  {
     id: "trafego-google",
     titulo: "Gestão de Tráfego Google",
     categoria: "Mídia Paga",
     descricao:
-      "Google Ads (Search, Display, YouTube) para atração qualificada de pacientes e clientes.",
+      "Google Ads (Search, Display, YouTube): distribuição, captação e remarketing.",
   },
   {
     id: "trafego-meta",
@@ -52,6 +86,21 @@ window.ARVIC_SERVICES = [
     descricao:
       "Campanhas no Instagram e Facebook focadas em geração de leads e agendamentos.",
   },
+  {
+    id: "seo",
+    titulo: "Otimização SEO",
+    categoria: "Mídia Paga",
+    descricao:
+      "Conteúdo e palavras-chave, UX, link building — tráfego orgânico qualificado.",
+  },
+  {
+    id: "funil-captacao",
+    titulo: "Funil de Captação Interno",
+    categoria: "Mídia Paga",
+    descricao:
+      "Base → Curiosidade → Oportunidades → Clientes. Estrutura de conversão da base.",
+  },
+  // Tecnologia --------------------------------------------------------------
   {
     id: "crm",
     titulo: "Implantação de CRM",
@@ -66,6 +115,7 @@ window.ARVIC_SERVICES = [
     descricao:
       "Agentes de IA para atendimento, qualificação de leads e automação de tarefas.",
   },
+  // Consultoria -------------------------------------------------------------
   {
     id: "treinamento-comercial",
     titulo: "Treinamento para Time Comercial",
@@ -83,47 +133,61 @@ window.ARVIC_SERVICES = [
 ];
 
 // Clientes ativos no portal.
-// Para adicionar cliente: copiar o bloco abaixo, trocar o slug (chave) e os dados.
-// - services: lista de IDs do ARVIC_SERVICES que o cliente contratou.
-// - driveEmbed: pegar o link de compartilhamento da pasta do Drive do cliente
-//   e converter para o formato "embed" (ver README).
-// - password: senha simples para o MVP de validação.
+// Para adicionar cliente novo: copiar o bloco abaixo, trocar o slug e os dados.
 window.ARVIC_CLIENTS = {
-  "dr-caqueti": {
-    nome: "Dr. Caqueti",
-    nomeCurto: "Dr. Caqueti",
-    especialidade: "Médico",
-    logo: "assets/clientes/dr-caqueti/logo.png",
-    password: "arvic2026",
+  "instituto-caquetti": {
+    nome: "Instituto Caquetti",
+    nomeCurto: "Dr. Filippe",
+    especialidade: "Dr. Filippe Mendes Caquetti · CRM-SP 139171 · Saúde Personalizada",
+    logo: "assets/clientes/instituto-caquetti/logo.png",
+    password: "caquetti2026",
     corDestaque: "#3FA095",
-    driveEmbed: "", // preencher: https://drive.google.com/embeddedfolderview?id=XXXXX#grid
-    driveLink: "", // preencher com link de compartilhamento normal
-    services: ["trafego-meta", "roteiros", "gravacao", "edicao", "postagem"],
+    // Para conectar: compartilhar a pasta do Drive ("Qualquer pessoa com o link")
+    //   e preencher os dois campos abaixo. Ver README.
+    driveEmbed: "",
+    driveLink: "",
+    // Serviços contratados conforme proposta comercial (R$ 4.990,00/mês):
+    services: [
+      "artes",
+      "carrosseis",
+      "artes-anuncios",
+      "videos-anuncios",
+      "roteiros",
+      "gravacao",
+      "edicao",
+      "postagem",
+      "copywriting",
+      "email-marketing",
+      "trafego-google",
+      "trafego-meta",
+      "seo",
+      "funil-captacao",
+    ],
     kpis: {
-      seguidores: { label: "Seguidores", value: 0, delta: 0, prefix: "" },
+      seguidores: { label: "Seguidores @institutocaquetti", value: 1602, delta: 0, prefix: "" },
       leads: { label: "Leads no mês", value: 0, delta: 0, prefix: "" },
       cpl: { label: "Custo por lead", value: 0, delta: 0, prefix: "R$ " },
       investimento: {
-        label: "Investimento no mês",
-        value: 0,
+        label: "Investimento mensal",
+        value: 4990,
         delta: 0,
         prefix: "R$ ",
       },
     },
     entregas: [
-      // Exemplo:
-      // { titulo: "Roteiro Episódio 12", categoria: "Conteúdo", status: "em-revisao", prazo: "2026-04-25" },
+      // Exemplo (remover e preencher com o que está em produção):
+      // { titulo: "Roteiro Episódio 12", categoria: "Conteúdo", status: "em-revisao", prazo: "2026-04-30" },
     ],
     agenda: [
       // Exemplo:
-      // { titulo: "Alinhamento mensal", data: "2026-04-28T14:00", local: "Google Meet" },
+      // { titulo: "Briefing inicial", data: "2026-04-28T14:00", local: "Google Meet" },
     ],
     performance: {
-      // Dados históricos para o gráfico. Edite conforme a evolução do cliente.
+      // Dados históricos para o gráfico. Atualizar conforme a evolução.
       labels: ["Dez", "Jan", "Fev", "Mar", "Abr"],
       series: [
         { name: "Leads", values: [0, 0, 0, 0, 0], color: "#3FA095" },
-        { name: "Investimento (R$)", values: [0, 0, 0, 0, 0], color: "#F29442" },
+        { name: "Investimento (R$)", values: [0, 0, 0, 0, 4990], color: "#F29442" },
       ],
     },
   },

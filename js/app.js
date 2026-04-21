@@ -259,6 +259,7 @@
     const cats = [
       "Conteúdo",
       "Design",
+      "Copy",
       "Mídia Paga",
       "Tecnologia",
       "Consultoria",

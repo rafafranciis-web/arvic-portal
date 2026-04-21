@@ -8,7 +8,7 @@ Portal estático, por cliente, com visão geral de entregas, performance, materi
 
 ## Como o portal funciona
 
-- `index.html` — página de acesso. Cliente digita **código** (ex: `dr-caqueti`) e **senha**.
+- `index.html` — página de acesso. Cliente digita **código** (ex: `instituto-caquetti`) e **senha**.
 - `portal.html?c=<código>` — dashboard do cliente. Carregado dinamicamente com os dados de [js/clients.js](js/clients.js).
 - `js/clients.js` — **aqui mora tudo**: catálogo de serviços da Arvic + dados de cada cliente.
 - Materiais: exibidos via embed da pasta do Google Drive do cliente (sem upload novo).
@@ -18,7 +18,7 @@ Portal estático, por cliente, com visão geral de entregas, performance, materi
 ## Como adicionar um cliente novo
 
 1. Abrir [js/clients.js](js/clients.js)
-2. Copiar o bloco de `"dr-caqueti"` e colar abaixo, trocando a **chave** (slug sem acento/espaço) e os dados.
+2. Copiar o bloco de `"instituto-caquetti"` e colar abaixo, trocando a **chave** (slug sem acento/espaço) e os dados.
 3. Preencher:
    - `nome`, `nomeCurto`, `especialidade`
    - `password` — senha que o cliente vai usar no login
@@ -52,7 +52,7 @@ Portal estático, por cliente, com visão geral de entregas, performance, materi
 
 - **Logo da Arvic:** `assets/brand/arvic-logo.png` (já está lá)
 - **Logo de cada cliente:** `assets/clientes/<slug>/logo.png`
-  (exemplo: `assets/clientes/dr-caqueti/logo.png`)
+  (exemplo: `assets/clientes/instituto-caquetti/logo.png`)
 
 Depois referenciar no campo `logo` do cliente em `js/clients.js`.
 
