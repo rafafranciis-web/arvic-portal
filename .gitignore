@@ -2,3 +2,7 @@
 .vercel
 node_modules
 *.log
+
+# Arquivos-fonte de identidade visual (mantidos só localmente, não vão pro deploy)
+ID VISUAL/
+

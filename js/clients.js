@@ -95,7 +95,7 @@ window.ARVIC_CLIENTS = {
     especialidade: "Médico",
     logo: "assets/clientes/dr-caqueti/logo.png",
     password: "arvic2026",
-    corDestaque: "#10b981",
+    corDestaque: "#3FA095",
     driveEmbed: "", // preencher: https://drive.google.com/embeddedfolderview?id=XXXXX#grid
     driveLink: "", // preencher com link de compartilhamento normal
     services: ["trafego-meta", "roteiros", "gravacao", "edicao", "postagem"],
@@ -122,8 +122,8 @@ window.ARVIC_CLIENTS = {
       // Dados históricos para o gráfico. Edite conforme a evolução do cliente.
       labels: ["Dez", "Jan", "Fev", "Mar", "Abr"],
       series: [
-        { name: "Leads", values: [0, 0, 0, 0, 0], color: "#10b981" },
-        { name: "Investimento (R$)", values: [0, 0, 0, 0, 0], color: "#60a5fa" },
+        { name: "Leads", values: [0, 0, 0, 0, 0], color: "#3FA095" },
+        { name: "Investimento (R$)", values: [0, 0, 0, 0, 0], color: "#F29442" },
       ],
     },
   },

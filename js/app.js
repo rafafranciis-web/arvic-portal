@@ -71,6 +71,7 @@
   function renderKPIs() {
     const grid = qs("#kpiGrid");
     const order = ["seguidores", "leads", "cpl", "investimento"];
+    const isMoney = (k) => k === "cpl" || k === "investimento";
     grid.innerHTML = order
       .map((k) => {
         const kpi = client.kpis?.[k];
@@ -79,21 +80,12 @@
         const deltaClass =
           delta > 0 ? "delta-up" : delta < 0 ? "delta-down" : "delta-neutral";
         const deltaSign = delta > 0 ? "+" : "";
-        const valueDisplay =
-          (kpi.prefix || "") +
-          (k === "cpl" || k === "investimento"
-            ? fmt.money(kpi.value || 0).replace("R$", "").trim()
-            : fmt.num(kpi.value || 0));
+        const value = Number(kpi.value) || 0;
+        const display = isMoney(k) ? fmt.money(value) : fmt.num(value);
         return `
           <div class="kpi-card bg-white/[0.02] border border-white/10 rounded-2xl p-5">
             <div class="text-[11px] uppercase tracking-[0.18em] text-slate-400">${kpi.label}</div>
-            <div class="mt-2 font-display font-extrabold text-2xl md:text-3xl">
-              ${kpi.prefix || ""}${
-          k === "cpl" || k === "investimento"
-            ? fmt.num((kpi.value || 0).toFixed(2))
-            : fmt.num(kpi.value || 0)
-        }
-            </div>
+            <div class="mt-2 font-display font-extrabold text-2xl md:text-3xl">${display}</div>
             <div class="mt-1 text-xs ${deltaClass} font-medium">
               ${deltaSign}${delta.toFixed(1)}% vs. mês anterior
             </div>
@@ -324,14 +316,14 @@
         datasets: (perf.series || []).map((s) => ({
           label: s.name,
           data: s.values,
-          borderColor: s.color || "#10b981",
-          backgroundColor: (s.color || "#10b981") + "22",
+          borderColor: s.color || "#3FA095",
+          backgroundColor: (s.color || "#3FA095") + "22",
           tension: 0.35,
           borderWidth: 2,
           fill: true,
           pointRadius: 3,
           pointHoverRadius: 5,
-          pointBackgroundColor: s.color || "#10b981",
+          pointBackgroundColor: s.color || "#3FA095",
         })),
       },
       options: {
