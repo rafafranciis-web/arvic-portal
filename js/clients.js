@@ -1,194 +1,304 @@
-// Catálogo completo de serviços da Arvic Group.
-// Rafael edita aqui quando lançar um novo serviço.
+// =============================================================
+//  ARVIC — Dados do portal
+// =============================================================
+//  Rafael edita esse arquivo (ou pede pra mim via Claude) sempre
+//  que quiser atualizar algo. Tudo que o cliente vê sai daqui.
+//
+//  Estrutura geral:
+//   - ARVIC_CONFIG    → configurações globais (WhatsApp, etc)
+//   - ARVIC_SERVICES  → catálogo completo das soluções Arvic
+//   - ARVIC_CLIENTS   → um bloco por cliente ativo no portal
+// =============================================================
+
+window.ARVIC_CONFIG = {
+  whatsapp: "5511942605977",           // número que recebe mensagens
+  whatsappDisplay: "(11) 94260-5977",
+  email: "contato@arvicgroup.com",
+  instagram: "@arvicgroup",
+};
+
+// -------------------------------------------------------------
+//  CATÁLOGO DE SOLUÇÕES
+// -------------------------------------------------------------
+//  Nomes repaginados pra transmitir o que é entregue de verdade,
+//  sem jargão de agência. Descrições em voz humana, sem discurso
+//  de IA.
+// -------------------------------------------------------------
 window.ARVIC_SERVICES = [
-  // Conteúdo ---------------------------------------------------------------
+  // Conteúdo --------------------------------------------------
   {
-    id: "roteiros",
-    titulo: "Roteirização de Vídeos",
+    id: "narrativa",
+    titulo: "Narrativa de Marca",
     categoria: "Conteúdo",
     descricao:
-      "Roteiros estratégicos e scripts personalizados, alinhados à mensagem e aos objetivos da marca.",
+      "Roteiros pensados pra cada vídeo: o que falar, em que ordem, com qual gancho. A gente parte da sua voz e transforma em material que as pessoas assistem até o fim.",
   },
   {
-    id: "gravacao",
-    titulo: "Gravação",
-    categoria: "Conteúdo",
-    descricao: "Direção e captação de vídeos no estúdio ou no consultório.",
-  },
-  {
-    id: "edicao",
-    titulo: "Edição de Alto Impacto",
+    id: "direcao-audiovisual",
+    titulo: "Direção Audiovisual",
     categoria: "Conteúdo",
     descricao:
-      "Cortes dinâmicos, efeitos visuais, transições suaves e correção de cor para Reels, Shorts e anúncios.",
+      "Gravação no consultório ou no estúdio, com direção no set. Você aparece bem, fala o que precisa e a gente cuida de tudo em volta.",
   },
   {
-    id: "postagem",
-    titulo: "Gestão de Redes Sociais",
+    id: "pos-producao",
+    titulo: "Pós-produção Cinematográfica",
     categoria: "Conteúdo",
     descricao:
-      "Planejamento editorial, cronograma, publicação e interação com o público.",
-  },
-  // Design ------------------------------------------------------------------
-  {
-    id: "artes",
-    titulo: "Artes para Redes Sociais",
-    categoria: "Design",
-    descricao: "Posts orgânicos, banners e identidade visual aplicada.",
+      "Cortes dinâmicos, legendas, cor tratada, transições que não distraem. O vídeo que sai daqui segura atenção do primeiro ao último segundo.",
   },
   {
-    id: "carrosseis",
-    titulo: "Carrosséis",
-    categoria: "Design",
-    descricao: "Carrosséis educativos e de conversão para Instagram e LinkedIn.",
+    id: "presenca-digital",
+    titulo: "Presença Digital Estratégica",
+    categoria: "Conteúdo",
+    descricao:
+      "Calendário editorial, postagem, monitoramento, resposta pra seguidor. Seu Instagram tem cara de quem está ali todo dia — porque estamos.",
   },
+  // Design ---------------------------------------------------
   {
-    id: "artes-anuncios",
-    titulo: "Artes para Anúncios",
+    id: "identidade-aplicada",
+    titulo: "Identidade Visual Aplicada",
     categoria: "Design",
     descricao:
-      "Peças visuais otimizadas para conversão em campanhas pagas no Google e Meta.",
+      "Peças que parecem saídas da sua marca, não de um template genérico. Cada arte com intenção, alinhada com o que você quer comunicar.",
   },
   {
-    id: "videos-anuncios",
-    titulo: "Vídeos Animados para Anúncios",
+    id: "storytelling-visual",
+    titulo: "Storytelling Visual",
     categoria: "Design",
     descricao:
-      "Vídeos dinâmicos e animados criados para impacto imediato em campanhas pagas.",
+      "Carrosséis que ensinam, convertem e são salvos. A gente desenha cada slide pra funcionar sozinho e em sequência.",
   },
-  // Copy --------------------------------------------------------------------
   {
-    id: "copywriting",
-    titulo: "Copywriting para Posts e Anúncios",
+    id: "criativos-conversao",
+    titulo: "Criativos de Conversão",
+    categoria: "Design",
+    descricao:
+      "Artes feitas especificamente pra anúncio. Testadas, otimizadas, trocadas quando cansa. Pago pra converter, não pra decorar.",
+  },
+  {
+    id: "videos-publicitarios",
+    titulo: "Vídeos Publicitários Animados",
+    categoria: "Design",
+    descricao:
+      "Vídeos com motion graphics pra campanhas que precisam impactar nos primeiros 3 segundos. Formato feed, reel e story.",
+  },
+  // Copy -----------------------------------------------------
+  {
+    id: "escrita-performance",
+    titulo: "Escrita de Alta Performance",
     categoria: "Copy",
     descricao:
-      "Textos persuasivos que capturam atenção, comunicam o diferencial e incentivam a ação.",
+      "Copy de post, legenda, anúncio e página. Texto que soa como você, com gancho, argumento e chamada clara pro próximo passo.",
   },
   {
-    id: "email-marketing",
-    titulo: "Escrita Criativa para Email Marketing",
+    id: "relacionamento-email",
+    titulo: "Relacionamento por E-mail",
     categoria: "Copy",
     descricao:
-      "E-mails personalizados por estágio da jornada do cliente, com foco em conversão.",
+      "Sequências de e-mail por etapa da jornada do paciente. Cada mensagem com um motivo pra ser aberta e lida.",
   },
-  // Mídia Paga --------------------------------------------------------------
+  // Mídia Paga -----------------------------------------------
   {
-    id: "trafego-google",
-    titulo: "Gestão de Tráfego Google",
+    id: "aceleracao-meta",
+    titulo: "Aceleração Meta Ads",
     categoria: "Mídia Paga",
     descricao:
-      "Google Ads (Search, Display, YouTube): distribuição, captação e remarketing.",
+      "Campanhas no Instagram e Facebook com três frentes rodando juntas: distribuição de autoridade, captação de lead quente e remarketing pra quem já se interessou.",
   },
   {
-    id: "trafego-meta",
-    titulo: "Gestão de Tráfego Meta",
+    id: "aceleracao-google",
+    titulo: "Aceleração Google Ads",
     categoria: "Mídia Paga",
     descricao:
-      "Campanhas no Instagram e Facebook focadas em geração de leads e agendamentos.",
+      "Search, Display e YouTube calibrados pro seu tipo de paciente. Pessoa procura, te encontra, agenda.",
   },
   {
-    id: "seo",
-    titulo: "Otimização SEO",
+    id: "presenca-organica",
+    titulo: "Presença Orgânica no Google",
     categoria: "Mídia Paga",
     descricao:
-      "Conteúdo e palavras-chave, UX, link building — tráfego orgânico qualificado.",
+      "Conteúdo que rankeia, site rápido, estrutura certa. Tráfego que chega sem você pagar por clique.",
   },
   {
-    id: "funil-captacao",
-    titulo: "Funil de Captação Interno",
+    id: "engenharia-conversao",
+    titulo: "Engenharia de Conversão",
     categoria: "Mídia Paga",
     descricao:
-      "Base → Curiosidade → Oportunidades → Clientes. Estrutura de conversão da base.",
+      "Desenho do funil interno: da base fria até o paciente marcar. Cada etapa com um próximo passo pensado.",
   },
-  // Tecnologia --------------------------------------------------------------
+  // Tecnologia -----------------------------------------------
   {
     id: "crm",
-    titulo: "Implantação de CRM",
+    titulo: "Infraestrutura Comercial Digital",
     categoria: "Tecnologia",
     descricao:
-      "Configuração, integração e organização do funil comercial em CRM (Kommo, Bitrix, HubSpot).",
+      "Toda clínica perde paciente em algum ponto: mensagem não respondida, follow-up esquecido, agenda bagunçada. A gente monta o CRM integrando WhatsApp, Instagram e agendamento — seu time vê quem precisa de atenção agora.",
+    upsell: true,
   },
   {
     id: "ia",
-    titulo: "Implantação de IA",
+    titulo: "Inteligência Artificial Proprietária",
     categoria: "Tecnologia",
     descricao:
-      "Agentes de IA para atendimento, qualificação de leads e automação de tarefas.",
+      "Uma IA treinada na sua base de conhecimento. Atende paciente no WhatsApp 24h, tira dúvidas comuns, pré-agenda. Seu paciente sente que tem você disponível o tempo todo — e seu time atende quem precisa de humano de verdade.",
+    upsell: true,
   },
-  // Consultoria -------------------------------------------------------------
+  // Consultoria ----------------------------------------------
   {
-    id: "treinamento-comercial",
-    titulo: "Treinamento para Time Comercial",
+    id: "consultoria-360",
+    titulo: "Consultoria Arvic 360º",
     categoria: "Consultoria",
     descricao:
-      "Capacitação ao vivo para fechamento, qualificação e gestão de pipeline.",
+      "Às vezes marketing não é o problema — é a operação toda. A gente olha seu negócio de cima e redesenha o que precisa: atendimento, comercial, processos, posicionamento. Você sai com um plano de 90 dias claro, sem palpite.",
+    upsell: true,
   },
   {
-    id: "processos",
-    titulo: "Estruturação de Processos",
+    id: "formacao-comercial",
+    titulo: "Formação Comercial Executiva",
     categoria: "Consultoria",
     descricao:
-      "Desenho e documentação de processos comerciais, operacionais e de atendimento.",
+      "Treinamento ao vivo do seu time: qualificar lead, abordar, fechar, cuidar do pipeline. Time que vende no padrão do que você cobra. A gente acompanha depois pra ver se o que ensinou virou prática.",
+    upsell: true,
+  },
+  {
+    id: "arquitetura-operacional",
+    titulo: "Arquitetura Operacional",
+    categoria: "Consultoria",
+    descricao:
+      "Seu negócio roda porque você empurra. Isso trava o crescimento. A gente mapeia e documenta os processos — captação, atendimento, follow-up, retenção — pra rolar sem depender de você em cada etapa.",
+    upsell: true,
+  },
+  {
+    id: "branding-medico",
+    titulo: "Branding Médico Premium",
+    categoria: "Consultoria",
+    descricao:
+      "Quando o nível do seu trabalho não aparece na sua marca, você perde pra concorrente menos preparado que investiu em presença. Reposicionamento completo: identidade, site, tom de voz. A cara do que você é de verdade.",
+    upsell: true,
   },
 ];
 
-// Clientes ativos no portal.
-// Para adicionar cliente novo: copiar o bloco abaixo, trocar o slug e os dados.
+// -------------------------------------------------------------
+//  CLIENTES ATIVOS
+// -------------------------------------------------------------
 window.ARVIC_CLIENTS = {
   "instituto-caquetti": {
+    // Identificação
     nome: "Instituto Caquetti",
     nomeCurto: "Dr. Filippe",
-    especialidade: "Dr. Filippe Mendes Caquetti · CRM-SP 139171 · Saúde Personalizada",
+    especialidade: "Dr. Filippe Mendes Caquetti · CRM-SP 139171",
+    tagline: "Saúde personalizada — cuidando por inteiro",
     logo: "assets/clientes/instituto-caquetti/logo.png",
+    instagram: "@institutocaquetti",
+    instagramUrl: "https://instagram.com/institutocaquetti",
+    linkBio: "https://linktr.ee/drfelippecaquetti",
     password: "caquetti2026",
     corDestaque: "#3FA095",
-    // Para conectar: compartilhar a pasta do Drive ("Qualquer pessoa com o link")
-    //   e preencher os dois campos abaixo. Ver README.
-    driveEmbed: "",
+
+    // Pasta do Drive (preencher assim que Rafael organizar):
+    //   driveLink  = link normal de compartilhamento da pasta-mãe
+    //   driveEmbed = variante "embeddedfolderview" (ver README)
     driveLink: "",
-    // Serviços contratados conforme proposta comercial (R$ 4.990,00/mês):
+    driveEmbed: "",
+
+    // Comercial
+    honorarios: 4990,          // valor mensal dos nossos serviços
+    exibirHonorarios: true,    // mostra no portal?
+
+    // Soluções contratadas (IDs do ARVIC_SERVICES)
     services: [
-      "artes",
-      "carrosseis",
-      "artes-anuncios",
-      "videos-anuncios",
-      "roteiros",
-      "gravacao",
-      "edicao",
-      "postagem",
-      "copywriting",
-      "email-marketing",
-      "trafego-google",
-      "trafego-meta",
-      "seo",
-      "funil-captacao",
+      "presenca-digital",
+      "narrativa",
+      "direcao-audiovisual",
+      "pos-producao",
+      "identidade-aplicada",
+      "storytelling-visual",
+      "criativos-conversao",
+      "videos-publicitarios",
+      "escrita-performance",
+      "relacionamento-email",
+      "aceleracao-meta",
+      "aceleracao-google",
+      "presenca-organica",
+      "engenharia-conversao",
     ],
-    kpis: {
-      seguidores: { label: "Seguidores @institutocaquetti", value: 1602, delta: 0, prefix: "" },
-      leads: { label: "Leads no mês", value: 0, delta: 0, prefix: "" },
-      cpl: { label: "Custo por lead", value: 0, delta: 0, prefix: "R$ " },
-      investimento: {
-        label: "Investimento mensal",
-        value: 4990,
+
+    // KPIs que este cliente vê no Visão Geral
+    // (outros clientes podem ter KPIs diferentes)
+    kpis: [
+      {
+        id: "seguidores",
+        label: "Seguidores no Instagram",
+        valor: 1602,
         delta: 0,
-        prefix: "R$ ",
+        formato: "numero",
+        fonte: "Manual · atualizado pela Arvic",
       },
-    },
-    entregas: [
-      // Exemplo (remover e preencher com o que está em produção):
-      // { titulo: "Roteiro Episódio 12", categoria: "Conteúdo", status: "em-revisao", prazo: "2026-04-30" },
+      {
+        id: "conteudos",
+        label: "Conteúdos publicados",
+        valor: 0,
+        delta: 0,
+        formato: "numero",
+        fonte: "Somado automaticamente da Biblioteca",
+      },
+      {
+        id: "honorarios",
+        label: "Honorários Arvic",
+        valor: 4990,
+        delta: 0,
+        formato: "moeda",
+        fonte: "Contrato vigente",
+      },
+      {
+        id: "proximo-encontro",
+        label: "Próximo encontro",
+        valor: "",
+        formato: "texto",
+        fonte: "Agenda",
+      },
     ],
-    agenda: [
-      // Exemplo:
-      // { titulo: "Briefing inicial", data: "2026-04-28T14:00", local: "Google Meet" },
-    ],
-    performance: {
-      // Dados históricos para o gráfico. Atualizar conforme a evolução.
-      labels: ["Dez", "Jan", "Fev", "Mar", "Abr"],
-      series: [
-        { name: "Leads", values: [0, 0, 0, 0, 0], color: "#3FA095" },
-        { name: "Investimento (R$)", values: [0, 0, 0, 0, 4990], color: "#F29442" },
+
+    // Jornada Instagram — o norte dessa parceria
+    jornadaInstagram: {
+      metaSeguidores: 5000,
+      // Rafael atualiza no final de cada mês. Vai puxando dados do
+      // Instagram Insights ou anotando manualmente.
+      historico: [
+        { mes: "2026-01", seguidores: 1602, alcance: 0, interacoes: 0 },
+      ],
+      marcos: [
+        {
+          data: "2026-01-15",
+          titulo: "Kickoff da parceria Arvic",
+          descricao:
+            "Briefing, mapeamento de conteúdo e alinhamento da estratégia de crescimento no Instagram.",
+        },
       ],
     },
+
+    // Biblioteca de conteúdo, organizada por mês
+    // Chaves no formato YYYY-MM. Meses sem produção ficam vazios
+    // (a UI já trata automaticamente).
+    biblioteca: {
+      "2026-01": { videos: [], roteiros: [], artes: [] },
+      "2026-02": { videos: [], roteiros: [], artes: [] },
+      "2026-03": { videos: [], roteiros: [], artes: [] },
+      "2026-04": { videos: [], roteiros: [], artes: [] },
+    },
+
+    // Vídeos aguardando aprovação do cliente
+    // Formato: { id, titulo, descricao, driveId, enviadoEm, duracao }
+    // Quando o cliente aprovar, ele dispara WhatsApp pra Arvic.
+    aprovacoesPendentes: [
+      // (exemplos removíveis — substituir por itens reais assim que
+      // tiver vídeos rodando pra aprovação)
+    ],
+
+    // Agenda: reuniões, gravações, entregas
+    agenda: [
+      // { titulo: "Gravação mensal", data: "2026-05-08T09:00", local: "Consultório", link: "" }
+    ],
   },
 };

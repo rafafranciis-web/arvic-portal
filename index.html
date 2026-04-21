@@ -4,9 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arvic Group — Portal do Cliente</title>
-    <meta name="description" content="Portal exclusivo dos clientes Arvic Group." />
+    <meta name="description" content="Área exclusiva dos clientes Arvic Group." />
     <link rel="icon" href="assets/brand/arvic-icon.png" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -32,8 +34,14 @@
       };
     </script>
   </head>
-  <body class="bg-ink-900 text-slate-100 antialiased min-h-screen flex flex-col">
-    <header class="px-6 md:px-10 py-5 flex items-center justify-between">
+  <body class="bg-ink-900 text-slate-100 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+    <!-- Ambient background -->
+    <div class="pointer-events-none absolute inset-0 opacity-60">
+      <div class="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-brand-500/10 blur-3xl"></div>
+      <div class="absolute top-1/2 -right-40 h-[500px] w-[500px] rounded-full bg-accent-500/5 blur-3xl"></div>
+    </div>
+
+    <header class="relative px-6 md:px-10 py-5 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <img
           src="assets/brand/arvic-logo-white.png"
@@ -50,31 +58,38 @@
       <a
         href="#acesso"
         class="text-sm font-medium text-slate-300 hover:text-white transition"
-        >Acessar Portal →</a
+        >Acessar portal →</a
       >
     </header>
 
-    <main class="flex-1 flex items-center">
-      <div class="w-full max-w-5xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-12 items-center">
-        <section>
-          <div class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-brand-500 mb-4">
-            <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
-            Área exclusiva
+    <main class="relative flex-1 flex items-center py-12">
+      <div class="w-full max-w-6xl mx-auto px-6 md:px-10 grid md:grid-cols-5 gap-10 items-center">
+        <section class="md:col-span-3" data-aos="fade-right" data-aos-duration="700">
+          <div class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-brand-500 mb-5">
+            <span class="h-1.5 w-1.5 rounded-full bg-brand-500 animate-pulse"></span>
+            Área exclusiva de cliente
           </div>
           <h1
-            class="font-display font-extrabold text-4xl md:text-5xl leading-[1.05] tracking-tight"
+            class="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tight"
           >
-            Tudo que estamos<br />construindo juntos<br />em um só lugar.
+            Tudo que a gente<br />está construindo<br />com você,<br />
+            <span class="text-brand-500">em um só lugar.</span>
           </h1>
-          <p class="mt-5 text-slate-400 text-lg leading-relaxed max-w-lg">
-            Acompanhe entregas, performance, materiais e próximos passos em
-            tempo real. Transparência total do trabalho da sua agência.
+          <p class="mt-6 text-slate-400 text-lg leading-relaxed max-w-xl">
+            Entregas, crescimento no Instagram, aprovação de vídeos e um canal
+            direto com o nosso time. Sem planilha solta, sem grupo de WhatsApp
+            perdido.
           </p>
 
-          <div id="acesso" class="mt-10 bg-white/[0.03] border border-white/10 rounded-2xl p-6 max-w-md">
+          <div
+            id="acesso"
+            class="mt-10 bg-white/[0.03] backdrop-blur border border-white/10 rounded-2xl p-6 max-w-md"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
             <div class="font-display font-bold text-lg mb-1">Acessar meu portal</div>
             <p class="text-sm text-slate-400 mb-4">
-              Informe o código e a senha que você recebeu da nossa equipe.
+              Com o código e a senha que a Arvic te mandou.
             </p>
             <form id="loginForm" class="space-y-3">
               <label class="block">
@@ -86,7 +101,7 @@
                   id="clientCode"
                   placeholder="ex: instituto-caquetti"
                   autocomplete="off"
-                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/60 focus:border-transparent"
+                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/60 focus:border-transparent transition"
                   required
                 />
               </label>
@@ -97,71 +112,55 @@
                 <input
                   type="password"
                   id="clientPassword"
-                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/60 focus:border-transparent"
+                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/60 focus:border-transparent transition"
                   required
                 />
               </label>
               <button
                 type="submit"
-                class="w-full bg-brand-500 hover:bg-brand-600 transition text-ink-900 font-semibold rounded-lg py-2.5 text-sm"
+                class="w-full bg-brand-500 hover:bg-brand-600 active:scale-[0.98] transition text-ink-900 font-semibold rounded-lg py-2.5 text-sm"
               >
                 Entrar no portal
               </button>
               <div id="loginError" class="text-xs text-red-400 hidden">
-                Código ou senha inválidos.
+                Código ou senha não batem. Confere os dados que a Arvic te enviou.
               </div>
             </form>
           </div>
         </section>
 
-        <aside class="hidden md:block">
+        <aside class="md:col-span-2 hidden md:block" data-aos="fade-left" data-aos-delay="200">
           <div
             class="relative aspect-[4/5] rounded-3xl bg-gradient-to-br from-white/[0.04] via-white/[0.02] to-transparent border border-white/10 overflow-hidden p-8"
           >
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(63,160,149,0.18),transparent_55%)]"></div>
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(242,148,66,0.10),transparent_50%)]"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(63,160,149,0.22),transparent_55%)]"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(242,148,66,0.12),transparent_50%)]"></div>
             <div class="relative h-full flex flex-col">
-              <div class="brand-lockup h-48 -mt-2 mb-4" role="img" aria-label="Arvic Group"></div>
+              <div class="brand-lockup h-44 -mt-2 mb-4" role="img" aria-label="Arvic Group"></div>
               <div class="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent mb-5"></div>
               <div class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-4">
-                O que você encontra no portal
+                Você vai encontrar
               </div>
-              <ul class="space-y-3 text-slate-200">
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 h-2 w-2 rounded-full bg-brand-500"></span>
-                  <div>
-                    <div class="font-semibold">Performance em tempo real</div>
-                    <div class="text-sm text-slate-400">
-                      Investimento, leads, crescimento, CPL.
-                    </div>
-                  </div>
+              <ul class="space-y-3 text-slate-200 text-sm">
+                <li class="flex items-start gap-2.5">
+                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0"></span>
+                  <span>Crescimento do seu Instagram mês a mês</span>
                 </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 h-2 w-2 rounded-full bg-brand-500"></span>
-                  <div>
-                    <div class="font-semibold">Entregas do mês</div>
-                    <div class="text-sm text-slate-400">
-                      Vídeos, artes, carrosséis, posts — tudo rastreado.
-                    </div>
-                  </div>
+                <li class="flex items-start gap-2.5">
+                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0"></span>
+                  <span>Biblioteca com tudo que a gente já produziu</span>
                 </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 h-2 w-2 rounded-full bg-brand-500"></span>
-                  <div>
-                    <div class="font-semibold">Biblioteca de materiais</div>
-                    <div class="text-sm text-slate-400">
-                      Tudo que produzimos juntos, arquivado no seu Drive.
-                    </div>
-                  </div>
+                <li class="flex items-start gap-2.5">
+                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0"></span>
+                  <span>Aprovação de vídeo em um clique</span>
                 </li>
-                <li class="flex items-start gap-3">
-                  <span class="mt-1 h-2 w-2 rounded-full bg-brand-500"></span>
-                  <div>
-                    <div class="font-semibold">Próximos encontros</div>
-                    <div class="text-sm text-slate-400">
-                      Calendário das nossas reuniões e gravações.
-                    </div>
-                  </div>
+                <li class="flex items-start gap-2.5">
+                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0"></span>
+                  <span>Canal direto com o time Arvic</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0"></span>
+                  <span>Próximos encontros e entregas no radar</span>
                 </li>
               </ul>
             </div>
@@ -170,17 +169,22 @@
       </div>
     </main>
 
-    <footer class="px-6 md:px-10 py-6 text-xs text-slate-500 flex items-center justify-between">
-      <div>© <span id="year"></span> Arvic Group. Todos os direitos reservados.</div>
-      <div class="hidden md:block">Portal v0.1 · MVP</div>
+    <footer class="relative px-6 md:px-10 py-6 text-xs text-slate-500 flex items-center justify-between">
+      <div>© <span id="year"></span> Arvic Group</div>
+      <div class="hidden md:block">Portal v0.2</div>
     </footer>
 
     <script src="js/clients.js"></script>
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
+      if (window.AOS) AOS.init({ duration: 600, easing: "ease-out-cubic", once: true });
+
       document.getElementById("loginForm").addEventListener("submit", (e) => {
         e.preventDefault();
-        const code = document.getElementById("clientCode").value.trim().toLowerCase();
+        const code = document
+          .getElementById("clientCode")
+          .value.trim()
+          .toLowerCase();
         const pass = document.getElementById("clientPassword").value;
         const client = window.ARVIC_CLIENTS && window.ARVIC_CLIENTS[code];
         const err = document.getElementById("loginError");
@@ -189,6 +193,9 @@
           window.location.href = "portal.html?c=" + encodeURIComponent(code);
         } else {
           err.classList.remove("hidden");
+          const form = e.currentTarget;
+          form.classList.add("shake");
+          setTimeout(() => form.classList.remove("shake"), 500);
         }
       });
     </script>
