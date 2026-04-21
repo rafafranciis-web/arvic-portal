@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arvic Group — Portal do Cliente</title>
+    <meta name="description" content="Portal exclusivo dos clientes Arvic Group." />
+    <link rel="icon" href="assets/brand/arvic-logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui"],
+              display: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"],
+            },
+            colors: {
+              ink: { 900: "#0b0f1a", 800: "#111827", 700: "#1f2937" },
+              brand: { 500: "#10b981", 600: "#059669", 700: "#047857" },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-ink-900 text-slate-100 antialiased min-h-screen flex flex-col">
+    <header class="px-6 md:px-10 py-5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img
+          src="assets/brand/arvic-logo.png"
+          alt="Arvic Group"
+          class="h-10 w-10 object-contain rounded-md bg-white/5 p-1"
+        />
+        <div class="leading-tight">
+          <div class="font-display font-extrabold tracking-tight text-lg">Arvic Group</div>
+          <div class="text-[11px] uppercase tracking-[0.2em] text-slate-400">
+            Portal do Cliente
+          </div>
+        </div>
+      </div>
+      <a
+        href="#acesso"
+        class="text-sm font-medium text-slate-300 hover:text-white transition"
+        >Acessar Portal →</a
+      >
+    </header>
+
+    <main class="flex-1 flex items-center">
+      <div class="w-full max-w-5xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-12 items-center">
+        <section>
+          <div class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-brand-500 mb-4">
+            <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+            Área exclusiva
+          </div>
+          <h1
+            class="font-display font-extrabold text-4xl md:text-5xl leading-[1.05] tracking-tight"
+          >
+            Tudo que estamos<br />construindo juntos<br />em um só lugar.
+          </h1>
+          <p class="mt-5 text-slate-400 text-lg leading-relaxed max-w-lg">
+            Acompanhe entregas, performance, materiais e próximos passos em
+            tempo real. Transparência total do trabalho da sua agência.
+          </p>
+
+          <div id="acesso" class="mt-10 bg-white/[0.03] border border-white/10 rounded-2xl p-6 max-w-md">
+            <div class="font-display font-bold text-lg mb-1">Acessar meu portal</div>
+            <p class="text-sm text-slate-400 mb-4">
+              Informe o código e a senha que você recebeu da nossa equipe.
+            </p>
+            <form id="loginForm" class="space-y-3">
+              <label class="block">
+                <span class="text-xs font-medium text-slate-300 block mb-1"
+                  >Código de acesso</span
+                >
+                <input
+                  type="text"
+                  id="clientCode"
+                  placeholder="ex: dr-caqueti"
+                  autocomplete="off"
+                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/60 focus:border-transparent"
+                  required
+                />
+              </label>
+              <label class="block">
+                <span class="text-xs font-medium text-slate-300 block mb-1"
+                  >Senha</span
+                >
+                <input
+                  type="password"
+                  id="clientPassword"
+                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/60 focus:border-transparent"
+                  required
+                />
+              </label>
+              <button
+                type="submit"
+                class="w-full bg-brand-500 hover:bg-brand-600 transition text-ink-900 font-semibold rounded-lg py-2.5 text-sm"
+              >
+                Entrar no portal
+              </button>
+              <div id="loginError" class="text-xs text-red-400 hidden">
+                Código ou senha inválidos.
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <aside class="hidden md:block">
+          <div
+            class="relative aspect-[4/5] rounded-3xl bg-gradient-to-br from-brand-500/20 via-brand-500/5 to-transparent border border-white/10 overflow-hidden p-8"
+          >
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.18),transparent_55%)]"></div>
+            <div class="relative">
+              <div class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-4">
+                O que você encontra no portal
+              </div>
+              <ul class="space-y-4 text-slate-200">
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 h-2 w-2 rounded-full bg-brand-500"></span>
+                  <div>
+                    <div class="font-semibold">Performance em tempo real</div>
+                    <div class="text-sm text-slate-400">
+                      Investimento, leads, crescimento, CPL.
+                    </div>
+                  </div>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 h-2 w-2 rounded-full bg-brand-500"></span>
+                  <div>
+                    <div class="font-semibold">Entregas do mês</div>
+                    <div class="text-sm text-slate-400">
+                      Vídeos, artes, carrosséis, posts — tudo rastreado.
+                    </div>
+                  </div>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 h-2 w-2 rounded-full bg-brand-500"></span>
+                  <div>
+                    <div class="font-semibold">Biblioteca de materiais</div>
+                    <div class="text-sm text-slate-400">
+                      Tudo que produzimos juntos, arquivado no seu Drive.
+                    </div>
+                  </div>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-1 h-2 w-2 rounded-full bg-brand-500"></span>
+                  <div>
+                    <div class="font-semibold">Próximos encontros</div>
+                    <div class="text-sm text-slate-400">
+                      Calendário das nossas reuniões e gravações.
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="px-6 md:px-10 py-6 text-xs text-slate-500 flex items-center justify-between">
+      <div>© <span id="year"></span> Arvic Group. Todos os direitos reservados.</div>
+      <div class="hidden md:block">Portal v0.1 · MVP</div>
+    </footer>
+
+    <script src="js/clients.js"></script>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+      document.getElementById("loginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const code = document.getElementById("clientCode").value.trim().toLowerCase();
+        const pass = document.getElementById("clientPassword").value;
+        const client = window.ARVIC_CLIENTS && window.ARVIC_CLIENTS[code];
+        const err = document.getElementById("loginError");
+        if (client && client.password === pass) {
+          localStorage.setItem("arvic_session_" + code, "1");
+          window.location.href = "portal.html?c=" + encodeURIComponent(code);
+        } else {
+          err.classList.remove("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>
