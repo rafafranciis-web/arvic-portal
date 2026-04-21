@@ -936,6 +936,17 @@
   });
 
   // ==========================================================
+  //  SOBRE ARVIC — CTA
+  // ==========================================================
+  const sobreCta = qs("#sobreCta");
+  if (sobreCta) {
+    sobreCta.href = wa(
+      CFG.whatsapp,
+      `Oi, time Arvic! Queria entender melhor como vocês podem me ajudar a evoluir.\n\n— ${client.nomeCurto || client.nome}`
+    );
+  }
+
+  // ==========================================================
   //  Render inicial
   // ==========================================================
   renderKPIs();

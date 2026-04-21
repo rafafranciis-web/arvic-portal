@@ -230,10 +230,10 @@ window.ARVIC_CLIENTS = {
       {
         id: "seguidores",
         label: "Seguidores no Instagram",
-        valor: 1602,
+        valor: 0,
         delta: 0,
         formato: "numero",
-        fonte: "Manual · atualizado pela Arvic",
+        fonte: "Atualizado pela Arvic",
       },
       {
         id: "conteudos",
@@ -241,15 +241,14 @@ window.ARVIC_CLIENTS = {
         valor: 0,
         delta: 0,
         formato: "numero",
-        fonte: "Somado automaticamente da Biblioteca",
+        fonte: "Somado da Biblioteca",
       },
       {
-        id: "honorarios",
-        label: "Honorários Arvic",
-        valor: 4990,
-        delta: 0,
-        formato: "moeda",
-        fonte: "Contrato vigente",
+        id: "proximo-marco",
+        label: "Próximo marco",
+        valor: "A definir",
+        formato: "texto",
+        fonte: "Planejamento Arvic",
       },
       {
         id: "proximo-encontro",
@@ -262,11 +261,11 @@ window.ARVIC_CLIENTS = {
 
     // Jornada Instagram — o norte dessa parceria
     jornadaInstagram: {
-      metaSeguidores: 5000,
+      metaSeguidores: 0,        // Rafael define a meta estratégica
       // Rafael atualiza no final de cada mês. Vai puxando dados do
       // Instagram Insights ou anotando manualmente.
       historico: [
-        { mes: "2026-01", seguidores: 1602, alcance: 0, interacoes: 0 },
+        // { mes: "2026-01", seguidores: 0, alcance: 0, interacoes: 0 },
       ],
       marcos: [
         {
