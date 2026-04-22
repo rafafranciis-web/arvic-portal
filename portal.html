@@ -28,8 +28,7 @@
               display: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"],
             },
             colors: {
-              ink: { 900: "#0b0f1a", 800: "#111827", 700: "#1f2937" },
-              brand: { 500: "#3FA095", 600: "#2E8A7F", 700: "#1F746A" },
+              ink: { 900: "#000000", 800: "#0a0a0a", 700: "#141414" },
               accent: { 500: "#F29442", 600: "#DB7F2D" },
             },
           },
@@ -37,14 +36,25 @@
       };
     </script>
   </head>
-  <body class="bg-ink-900 text-slate-100 antialiased min-h-screen">
+  <body class="bg-black text-slate-100 antialiased min-h-screen" x-data="{ drawer: false }">
     <!-- ================================================== -->
     <!-- ÁREA LOGADA                                         -->
     <!-- ================================================== -->
-    <div id="app" class="hidden min-h-screen md:flex">
-      <!-- Sidebar -->
+    <div id="app" class="hidden md:flex min-h-screen">
+
+      <!-- Backdrop mobile (só aparece quando drawer aberto) -->
+      <div
+        class="md:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40 transition-opacity"
+        x-show="drawer"
+        x-transition.opacity
+        @click="drawer = false"
+        style="display: none;"
+      ></div>
+
+      <!-- Sidebar / drawer -->
       <aside
-        class="w-64 shrink-0 border-r border-white/5 bg-ink-900 md:sticky md:top-0 md:h-screen flex flex-col"
+        class="w-64 shrink-0 border-r border-white/5 bg-black md:sticky md:top-0 md:h-screen flex flex-col fixed inset-y-0 left-0 z-50 transition-transform md:translate-x-0"
+        :class="drawer ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
       >
         <div class="px-5 py-5 flex items-center gap-3 border-b border-white/5">
           <img
@@ -129,13 +139,20 @@
       <main class="flex-1 min-w-0">
         <!-- Top bar -->
         <div
-          class="sticky top-0 z-10 bg-ink-900/85 backdrop-blur border-b border-white/5 px-6 md:px-10 py-5 flex items-center justify-between gap-4"
+          class="sticky top-0 z-20 bg-black/90 backdrop-blur border-b border-white/5 px-4 md:px-10 py-4 md:py-5 flex items-center justify-between gap-3"
         >
-          <div class="min-w-0">
-            <div class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mb-1" id="sectionLabel">
+          <button
+            @click="drawer = true"
+            class="md:hidden -ml-1 p-2 rounded-md hover:bg-white/5 transition"
+            aria-label="Abrir menu"
+          >
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/></svg>
+          </button>
+          <div class="min-w-0 flex-1">
+            <div class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mb-0.5" id="sectionLabel">
               Visão Geral
             </div>
-            <h1 id="pageTitle" class="font-display font-extrabold text-2xl md:text-3xl tracking-[-0.02em] truncate">
+            <h1 id="pageTitle" class="font-display font-extrabold text-xl md:text-3xl tracking-[-0.02em] truncate">
               Olá, <span id="clientFirstName"></span>
             </h1>
           </div>
@@ -148,7 +165,7 @@
         <!-- ============================ -->
         <!-- SEÇÃO: VISÃO GERAL           -->
         <!-- ============================ -->
-        <section data-view="overview" class="px-6 md:px-10 py-8">
+        <section data-view="overview" class="px-4 md:px-10 py-6 md:py-8">
           <div id="kpiGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
 
           <div class="mt-10 grid lg:grid-cols-3 gap-6">
@@ -226,7 +243,7 @@
         <!-- ============================ -->
         <!-- SEÇÃO: JORNADA INSTAGRAM     -->
         <!-- ============================ -->
-        <section data-view="jornada" class="hidden px-6 md:px-10 py-8">
+        <section data-view="jornada" class="hidden px-4 md:px-10 py-6 md:py-8">
           <div class="grid lg:grid-cols-3 gap-6 mb-8">
             <div class="bg-white/[0.02] border border-white/10 rounded-2xl p-5" data-aos="fade-up">
               <div class="text-[11px] uppercase tracking-[0.2em] text-slate-400 mb-1">Seguidores hoje</div>
@@ -274,7 +291,7 @@
         <!-- ============================ -->
         <!-- SEÇÃO: BIBLIOTECA             -->
         <!-- ============================ -->
-        <section data-view="biblioteca" class="hidden px-6 md:px-10 py-8" x-data="{ activeMonth: null, filter: 'todos' }">
+        <section data-view="biblioteca" class="hidden px-4 md:px-10 py-6 md:py-8" x-data="{ activeMonth: null, filter: 'todos' }">
           <div class="flex items-center justify-between mb-6 gap-4 flex-wrap">
             <div>
               <div class="font-display font-bold text-xl">Biblioteca de conteúdo</div>
@@ -298,7 +315,7 @@
         <!-- ============================ -->
         <!-- SEÇÃO: APROVAÇÕES             -->
         <!-- ============================ -->
-        <section data-view="aprovacoes" class="hidden px-6 md:px-10 py-8">
+        <section data-view="aprovacoes" class="hidden px-4 md:px-10 py-6 md:py-8">
           <div class="mb-6">
             <div class="font-display font-bold text-xl">Aguardando seu ok</div>
             <p class="text-sm text-slate-400 max-w-2xl">
@@ -316,7 +333,7 @@
         <!-- ============================ -->
         <!-- SEÇÃO: AGENDA                 -->
         <!-- ============================ -->
-        <section data-view="agenda" class="hidden px-6 md:px-10 py-8">
+        <section data-view="agenda" class="hidden px-4 md:px-10 py-6 md:py-8">
           <div class="bg-white/[0.02] border border-white/10 rounded-2xl p-6">
             <div class="font-display font-bold text-lg mb-1">Próximos encontros</div>
             <p class="text-sm text-slate-400 mb-5">
@@ -332,7 +349,7 @@
         <!-- ============================ -->
         <!-- SEÇÃO: MENSAGENS (WhatsApp)  -->
         <!-- ============================ -->
-        <section data-view="mensagens" class="hidden px-6 md:px-10 py-8">
+        <section data-view="mensagens" class="hidden px-4 md:px-10 py-6 md:py-8">
           <div class="max-w-3xl">
             <div class="font-display font-bold text-xl mb-1">Fale com a Arvic</div>
             <p class="text-sm text-slate-400 mb-6 max-w-xl">
@@ -372,30 +389,14 @@
         <!-- ============================ -->
         <!-- SEÇÃO: SOLUÇÕES ARVIC         -->
         <!-- ============================ -->
-        <section data-view="solucoes" class="hidden px-6 md:px-10 py-8" x-data="{ filter: 'todas' }">
-          <div class="mb-8">
-            <div class="font-display font-bold text-xl mb-1">Soluções Arvic</div>
-            <p class="text-sm text-slate-400 max-w-2xl">
-              Tudo que a gente entrega. O que tá verde já é seu. O que não é e fizer sentido pro seu momento, dá pra chamar a gente pra conversar.
-            </p>
-          </div>
-          <div class="flex gap-1 bg-white/[0.03] border border-white/10 rounded-lg p-1 text-xs mb-6 overflow-x-auto w-fit">
-            <template x-for="cat in ['todas','ativas','disponíveis']">
-              <button
-                @click="filter = cat"
-                :class="filter === cat ? 'bg-white/10 text-white' : 'text-slate-400'"
-                class="px-3 py-1.5 rounded-md font-medium capitalize whitespace-nowrap"
-                x-text="cat"
-              ></button>
-            </template>
-          </div>
+        <section data-view="solucoes" class="hidden px-4 md:px-10 py-6 md:py-8">
           <div id="catalogGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
         </section>
 
         <!-- ============================ -->
         <!-- SEÇÃO: SOBRE ARVIC            -->
         <!-- ============================ -->
-        <section data-view="sobre" class="hidden px-6 md:px-10 py-12">
+        <section data-view="sobre" class="hidden px-4 md:px-10 py-8 md:py-12">
           <div class="max-w-4xl">
 
             <!-- Hero do Sobre -->

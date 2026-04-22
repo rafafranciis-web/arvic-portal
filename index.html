@@ -25,8 +25,7 @@
               display: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui"],
             },
             colors: {
-              ink: { 900: "#0b0f1a", 800: "#111827", 700: "#1f2937" },
-              brand: { 500: "#3FA095", 600: "#2E8A7F", 700: "#1F746A" },
+              ink: { 900: "#000000", 800: "#0a0a0a", 700: "#141414" },
               accent: { 500: "#F29442", 600: "#DB7F2D" },
             },
           },
@@ -34,64 +33,43 @@
       };
     </script>
   </head>
-  <body class="bg-ink-900 text-slate-100 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+  <body class="bg-black text-slate-100 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
 
-    <header class="relative px-6 md:px-12 py-6 flex items-center justify-between border-b border-white/[0.04]">
-      <div class="flex items-center gap-3">
-        <img
-          src="assets/brand/arvic-logo-white.png"
-          alt="Arvic Group"
-          class="h-7 w-auto"
-        />
-        <div class="font-display font-extrabold tracking-tight text-base">Arvic Group</div>
+    <header class="relative px-5 md:px-10 py-5 flex items-center justify-between border-b border-white/[0.05]">
+      <div class="flex items-center gap-2.5">
+        <img src="assets/brand/arvic-logo-white.png" alt="Arvic Group" class="h-6 md:h-7 w-auto" />
+        <div class="font-display font-extrabold tracking-tight text-sm md:text-base">Arvic Group</div>
       </div>
-      <div class="flex items-center gap-6 text-[10px] uppercase tracking-[0.3em] text-white/40">
-        <span class="hidden md:inline">Portal · v0.2</span>
-        <span id="dateStamp"></span>
-      </div>
+      <div class="text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-white/40" id="dateStamp"></div>
     </header>
 
     <main class="relative flex-1 grid md:grid-cols-12">
-      <!-- ESQUERDA: hero editorial -->
-      <section class="md:col-span-7 relative px-6 md:px-12 lg:px-20 py-16 md:py-24 flex flex-col justify-center" data-aos="fade-up" data-aos-duration="700">
-        <div class="num-label mb-8">
-          <span>001</span>
-          <span class="h-px w-8 bg-white/20"></span>
-          <span>Acesso ao portal</span>
-        </div>
+      <!-- ESQUERDA: hero + login -->
+      <section class="md:col-span-7 relative px-6 md:px-14 lg:px-20 py-14 md:py-20 flex flex-col justify-center" data-aos="fade-up" data-aos-duration="700">
 
-        <h1
-          id="heroTitle"
-          class="font-display font-extrabold text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-[-0.03em] min-h-[280px] md:min-h-[360px] lg:min-h-[420px]"
-        >
+        <h1 class="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl leading-[1.0] tracking-[-0.03em] min-h-[200px] md:min-h-[260px] lg:min-h-[300px]">
           <span id="heroTypewriter" class="typewriter"></span><br />
-          <span id="heroAccent" class="bg-gradient-to-br from-white via-slate-300 to-slate-500 bg-clip-text text-transparent opacity-0 transition-opacity duration-700">em um só lugar.</span>
+          <span id="heroAccent" class="bg-gradient-to-br from-white via-slate-300 to-slate-500 bg-clip-text text-transparent opacity-0 transition-opacity duration-700">em tempo real.</span>
         </h1>
 
-        <p class="mt-8 font-serif italic text-2xl md:text-3xl leading-snug text-slate-300 max-w-xl">
-          Estúdio de marketing e crescimento digital.
+        <p class="mt-5 md:mt-6 font-serif italic text-xl md:text-2xl leading-snug text-slate-300 max-w-xl">
+          Uma janela direta para tudo que a Arvic está construindo com você.
         </p>
 
-        <p class="mt-6 text-base text-slate-400 leading-relaxed max-w-lg">
-          Entregas, crescimento no Instagram, aprovação de vídeos e um canal direto com o nosso time. Sem planilha solta, sem grupo de WhatsApp perdido.
-        </p>
-
-        <!-- LOGIN — tratado como uma área editorial, não card -->
-        <div id="acesso" class="mt-12 max-w-sm" data-aos="fade-up" data-aos-delay="200">
-          <div class="num-label mb-5">
-            <span>002</span>
-            <span class="h-px w-8 bg-white/20"></span>
-            <span>Entrar</span>
+        <!-- LOGIN integrado ao fluxo -->
+        <div id="acesso" class="mt-10 md:mt-12 max-w-sm w-full" data-aos="fade-up" data-aos-delay="200">
+          <div class="text-[10px] uppercase tracking-[0.3em] text-slate-500 mb-4">
+            Acesso exclusivo
           </div>
-          <form id="loginForm" class="space-y-4">
+          <form id="loginForm" class="space-y-5">
             <label class="block">
               <span class="text-[10px] uppercase tracking-[0.25em] text-slate-400 block mb-2">Código</span>
               <input
                 type="text"
                 id="clientCode"
-                placeholder="instituto-caquetti"
+                placeholder="digite seu código"
                 autocomplete="off"
-                class="w-full bg-transparent border-b border-white/15 px-0 py-2 text-base focus:outline-none focus:border-white/50 transition placeholder:text-white/20"
+                class="w-full bg-transparent border-b border-white/15 px-0 py-2 text-base focus:outline-none focus:border-white/60 transition placeholder:text-white/15"
                 required
               />
             </label>
@@ -100,13 +78,13 @@
               <input
                 type="password"
                 id="clientPassword"
-                class="w-full bg-transparent border-b border-white/15 px-0 py-2 text-base focus:outline-none focus:border-white/50 transition"
+                class="w-full bg-transparent border-b border-white/15 px-0 py-2 text-base focus:outline-none focus:border-white/60 transition"
                 required
               />
             </label>
             <button
               type="submit"
-              class="w-full btn-primary rounded-full py-3 px-6 text-sm mt-4"
+              class="w-full btn-primary rounded-full py-3 px-6 text-sm mt-6"
             >
               Entrar no portal
             </button>
@@ -117,16 +95,16 @@
         </div>
       </section>
 
-      <!-- DIREITA: marca isolada, sem efeito ao redor -->
-      <aside class="md:col-span-5 relative bg-black border-t md:border-t-0 md:border-l border-white/[0.05]" data-aos="fade-left" data-aos-delay="200">
-        <div class="relative h-full flex items-center justify-center p-10 md:p-14 min-h-[600px]">
-          <div class="brand-lockup h-64 md:h-80 w-full" role="img" aria-label="Arvic Group"></div>
+      <!-- DIREITA: logo isolada. Em mobile, fica abaixo. -->
+      <aside class="md:col-span-5 relative border-t md:border-t-0 md:border-l border-white/[0.05]" data-aos="fade-left" data-aos-delay="200">
+        <div class="relative h-full flex items-center justify-center p-10 md:p-14 min-h-[280px] md:min-h-[600px]">
+          <div class="brand-lockup h-40 md:h-64 lg:h-80 w-full max-w-xs md:max-w-none" role="img" aria-label="Arvic Group"></div>
         </div>
       </aside>
     </main>
 
-    <footer class="relative px-6 md:px-12 py-6 text-[10px] uppercase tracking-[0.3em] text-white/35 flex items-center justify-between border-t border-white/[0.04]">
-      <div>© <span id="year"></span> Arvic Group · Todos os direitos reservados</div>
+    <footer class="relative px-5 md:px-10 py-5 text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-white/35 flex items-center justify-between border-t border-white/[0.04]">
+      <div>© <span id="year"></span> Arvic Group</div>
       <div class="hidden md:block">Portal Arvic Group</div>
     </footer>
 
@@ -148,7 +126,7 @@
         const target = document.getElementById("heroTypewriter");
         const accent = document.getElementById("heroAccent");
         if (!target) return;
-        const text = "Tudo que a gente está\nconstruindo com você,";
+        const text = "O trabalho da\nsua marca,";
         let i = 0;
         function type() {
           if (i >= text.length) {
@@ -163,17 +141,14 @@
             target.append(ch);
           }
           i++;
-          setTimeout(type, 38 + Math.random() * 30);
+          setTimeout(type, 42 + Math.random() * 30);
         }
         setTimeout(type, 450);
       })();
 
       document.getElementById("loginForm").addEventListener("submit", (e) => {
         e.preventDefault();
-        const code = document
-          .getElementById("clientCode")
-          .value.trim()
-          .toLowerCase();
+        const code = document.getElementById("clientCode").value.trim().toLowerCase();
         const pass = document.getElementById("clientPassword").value;
         const client = window.ARVIC_CLIENTS && window.ARVIC_CLIENTS[code];
         const err = document.getElementById("loginError");

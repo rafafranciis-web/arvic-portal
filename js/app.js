@@ -1041,49 +1041,61 @@
     const grid = qs("#catalogGrid");
     const activeSet = new Set(client.services || []);
     const cats = ["Conteúdo", "Design", "Copy", "Mídia Paga", "Tecnologia", "Consultoria"];
-    const sorted = SERVICES.slice().sort(
+    const ordered = SERVICES.slice().sort(
       (a, b) =>
         cats.indexOf(a.categoria) - cats.indexOf(b.categoria) ||
         a.titulo.localeCompare(b.titulo)
     );
-    grid.innerHTML = sorted
+    const ativas = ordered.filter((s) => activeSet.has(s.id));
+    const upsells = ordered
+      .filter((s) => !activeSet.has(s.id))
+      .filter((s) => s.upsell !== false);
+
+    const ativasHTML = ativas
+      .map(
+        (s, i) => `
+          <div class="svc-card bg-white/[0.02] border border-white/10 rounded-2xl p-5 md:p-6 flex flex-col" data-aos="fade-up" data-aos-delay="${(i % 6) * 50}">
+            <div class="text-[10px] uppercase tracking-[0.25em] text-slate-400 mb-3">${esc(s.categoria)}</div>
+            <div class="font-display font-bold text-base md:text-lg mb-2 tracking-tight">${esc(s.titulo)}</div>
+            <p class="text-sm text-slate-400 leading-relaxed flex-1">${esc(s.descricao)}</p>
+          </div>`
+      )
+      .join("");
+
+    const upsellsHTML = upsells
       .map((s, i) => {
-        const ativo = activeSet.has(s.id);
-        const showExpr = ativo
-          ? "filter === 'todas' || filter === 'ativas'"
-          : "filter === 'todas' || filter === 'disponíveis'";
-        const msg = `Oi, time Arvic! Tenho interesse em saber mais sobre "${s.titulo}" pra minha operação.\n\n— ${clientShort}`;
+        const msg = `Oi, time Arvic! Tenho interesse em entender melhor como "${s.titulo}" pode ajudar a minha operação.\n\n— ${clientShort}`;
         const waLink = wa(CFG.whatsapp, msg);
         return `
-          <div class="svc-card ${
-            ativo ? "" : "svc-locked"
-          } bg-white/[0.02] border ${
-          ativo ? "border-white/25" : "border-white/10"
-        } rounded-2xl p-5 flex flex-col" data-aos="fade-up" data-aos-delay="${
-          (i % 6) * 50
-        }" x-show="${showExpr}">
-            <div class="flex items-center justify-between mb-3">
-              <div class="text-[10px] uppercase tracking-[0.2em] text-slate-400">${esc(s.categoria)}</div>
-              ${
-                ativo
-                  ? `<span class="chip chip-ativo">Contratado</span>`
-                  : `<span class="chip chip-concluido">Disponível</span>`
-              }
+          <a href="${waLink}" target="_blank" rel="noopener"
+            class="group block bg-white/[0.015] border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.03] rounded-xl p-4 md:p-5 transition" data-aos="fade-up" data-aos-delay="${(i % 4) * 50}">
+            <div class="flex items-start justify-between gap-4 mb-1.5">
+              <div class="text-[10px] uppercase tracking-[0.25em] text-slate-500">${esc(s.categoria)}</div>
+              <svg class="h-3.5 w-3.5 text-slate-500 group-hover:text-white transition mt-0.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <div class="font-display font-bold text-base mb-2">${esc(s.titulo)}</div>
-            <p class="text-sm text-slate-400 leading-relaxed flex-1">${esc(s.descricao)}</p>
-            ${
-              !ativo
-                ? `<a href="${waLink}" target="_blank" rel="noopener"
-                  class="mt-4 inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-white font-semibold">
-                    Conversar sobre essa solução
-                    <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </a>`
-                : ""
-            }
-          </div>`;
+            <div class="font-display font-bold text-sm md:text-base text-slate-200 group-hover:text-white transition mb-1">${esc(s.titulo)}</div>
+          </a>`;
       })
       .join("");
+
+    grid.innerHTML = `
+      <div class="col-span-full mb-4">
+        <div class="text-[11px] uppercase tracking-[0.3em] text-slate-400 mb-1">O que a Arvic entrega pra você</div>
+        <div class="font-display font-bold text-xl md:text-2xl tracking-tight">Suas soluções ativas</div>
+      </div>
+      ${ativasHTML}
+      ${
+        upsells.length
+          ? `<div class="col-span-full mt-10 mb-4">
+              <div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-8"></div>
+              <div class="text-[11px] uppercase tracking-[0.3em] text-slate-500 mb-1">Quando fizer sentido</div>
+              <div class="font-display font-bold text-lg md:text-xl tracking-tight text-slate-300">Outras frentes que a Arvic domina</div>
+              <p class="text-sm text-slate-500 mt-2 max-w-lg">Se qualquer uma dessas destravar o próximo passo do seu negócio, a gente conversa.</p>
+            </div>
+            <div class="col-span-full grid md:grid-cols-2 lg:grid-cols-3 gap-3">${upsellsHTML}</div>`
+          : ""
+      }
+    `;
   }
 
   // ==========================================================
@@ -1117,7 +1129,12 @@
   }
 
   qsa(".side-link").forEach((el) =>
-    el.addEventListener("click", () => showView(el.dataset.section))
+    el.addEventListener("click", () => {
+      showView(el.dataset.section);
+      if (window.Alpine) {
+        try { Alpine.$data(document.body).drawer = false; } catch (e) { /* no-op */ }
+      }
+    })
   );
   qsa("[data-goto]").forEach((el) =>
     el.addEventListener("click", (e) => {
