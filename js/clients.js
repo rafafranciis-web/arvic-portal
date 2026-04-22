@@ -259,14 +259,9 @@ window.ARVIC_CLIENTS = {
       },
     ],
 
-    // Jornada Instagram — o norte dessa parceria
     jornadaInstagram: {
-      metaSeguidores: 0,        // Rafael define a meta estratégica
-      // Rafael atualiza no final de cada mês. Vai puxando dados do
-      // Instagram Insights ou anotando manualmente.
-      historico: [
-        // { mes: "2026-01", seguidores: 0, alcance: 0, interacoes: 0 },
-      ],
+      metaSeguidores: 0,
+      historico: [],
       marcos: [
         {
           data: "2026-01-15",
@@ -277,9 +272,6 @@ window.ARVIC_CLIENTS = {
       ],
     },
 
-    // Biblioteca de conteúdo, organizada por mês
-    // Chaves no formato YYYY-MM. Meses sem produção ficam vazios
-    // (a UI já trata automaticamente).
     biblioteca: {
       "2026-01": { videos: [], roteiros: [], artes: [] },
       "2026-02": { videos: [], roteiros: [], artes: [] },
@@ -287,17 +279,10 @@ window.ARVIC_CLIENTS = {
       "2026-04": { videos: [], roteiros: [], artes: [] },
     },
 
-    // Vídeos aguardando aprovação do cliente
-    // Formato: { id, titulo, descricao, driveId, enviadoEm, duracao }
-    // Quando o cliente aprovar, ele dispara WhatsApp pra Arvic.
-    aprovacoesPendentes: [
-      // (exemplos removíveis — substituir por itens reais assim que
-      // tiver vídeos rodando pra aprovação)
-    ],
+    // aprovacoesPendentes: { id, titulo, descricao, driveId, enviadoEm, duracao }
+    aprovacoesPendentes: [],
 
-    // Agenda: reuniões, gravações, entregas
-    agenda: [
-      // { titulo: "Gravação mensal", data: "2026-05-08T09:00", local: "Consultório", link: "" }
-    ],
+    // agenda: { titulo, data (ISO), local, link? }
+    agenda: [],
   },
 };

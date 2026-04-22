@@ -98,61 +98,81 @@
   const wa = (numero, texto) =>
     `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
 
+  const initials = (name) =>
+    (name || "?")
+      .split(" ")
+      .map((p) => p[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
+
+  const deltaClass = (n) =>
+    n > 0 ? "delta-up" : n < 0 ? "delta-down" : "delta-neutral";
+
+  const storageKey = {
+    session: (s) => `arvic_session_${s}`,
+    welcomed: (s) => `arvic_welcomed_${s}`,
+    approved: (s, id) => `approved_${s}_${id}`,
+  };
+
+  const FMT_INT = new Intl.NumberFormat("pt-BR");
+  const FMT_MONEY_INT = new Intl.NumberFormat("pt-BR", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+
   // ---------- Toast ----------
   function toast(message, { icon = "✓", duration = 3200 } = {}) {
     const host = qs("#toastHost");
     if (!host) return;
     const el = document.createElement("div");
     el.className = "toast";
-    el.innerHTML = `
-      <span class="toast-icon">${icon}</span>
-      <span>${esc(message)}</span>`;
+    const iconSpan = document.createElement("span");
+    iconSpan.className = "toast-icon";
+    iconSpan.textContent = icon;
+    const msgSpan = document.createElement("span");
+    msgSpan.textContent = message;
+    el.appendChild(iconSpan);
+    el.appendChild(msgSpan);
     host.appendChild(el);
     setTimeout(() => {
       el.classList.add("toast-out");
-      setTimeout(() => el.remove(), 300);
+      el.addEventListener("animationend", () => el.remove(), { once: true });
     }, duration);
   }
 
   // ---------- Count up ----------
+  const countUpHandles = new WeakMap();
   function countUp(el, target, { duration = 1000, prefix = "", suffix = "" } = {}) {
     if (!el) return;
+    const prev = countUpHandles.get(el);
+    if (prev) cancelAnimationFrame(prev);
     const startTime = performance.now();
-    const startValue = 0;
     const end = Number(target) || 0;
     if (end === 0) {
       el.textContent = prefix + "0" + suffix;
       return;
     }
-    const isMoney = prefix === "R$ ";
+    const formatter = prefix === "R$ " ? FMT_MONEY_INT : FMT_INT;
     function frame(now) {
       const p = Math.min(1, (now - startTime) / duration);
-      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
-      const current = startValue + (end - startValue) * eased;
-      el.textContent =
-        prefix +
-        (isMoney
-          ? new Intl.NumberFormat("pt-BR", {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            }).format(current)
-          : new Intl.NumberFormat("pt-BR").format(Math.round(current))) +
-        suffix;
-      if (p < 1) requestAnimationFrame(frame);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + formatter.format(Math.round(end * eased)) + suffix;
+      if (p < 1) countUpHandles.set(el, requestAnimationFrame(frame));
     }
-    requestAnimationFrame(frame);
+    countUpHandles.set(el, requestAnimationFrame(frame));
   }
 
   // ---------- Dynamic favicon ----------
+  // Cacheia a imagem base (arvic-icon.png) pra não recarregar/decodar a cada atualização.
+  let faviconBaseImage = null;
   function updateFavicon(pendingCount) {
-    try {
-      const canvas = document.createElement("canvas");
-      canvas.width = canvas.height = 32;
-      const c = canvas.getContext("2d");
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      img.onload = () => {
-        c.drawImage(img, 0, 0, 32, 32);
+    const draw = () => {
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = 32;
+        const c = canvas.getContext("2d");
+        c.drawImage(faviconBaseImage, 0, 0, 32, 32);
         if (pendingCount > 0) {
           c.fillStyle = "#F29442";
           c.beginPath();
@@ -171,17 +191,24 @@
           document.head.appendChild(link);
         }
         link.href = canvas.toDataURL("image/png");
-      };
-      img.src = "assets/brand/arvic-icon.png";
-    } catch (e) {
-      /* silent */
-    }
+      } catch (e) {
+        console.warn("favicon update failed:", e);
+      }
+    };
+    if (faviconBaseImage) return draw();
+    const img = new Image();
+    img.onload = () => {
+      faviconBaseImage = img;
+      draw();
+    };
+    img.onerror = () => console.warn("favicon base image failed to load");
+    img.src = "assets/brand/arvic-icon.png";
   }
 
   // ---------- Auth gate ----------
   const slug = (getParam("c") || "").trim().toLowerCase();
   const client = (window.ARVIC_CLIENTS || {})[slug];
-  const hasSession = !!localStorage.getItem("arvic_session_" + slug);
+  const hasSession = !!localStorage.getItem(storageKey.session(slug));
 
   if (!client || !hasSession) {
     qs("#authGate").classList.remove("hidden");
@@ -195,37 +222,30 @@
 
   // ---------- Bootstrap ----------
   const firstName = client.nomeCurto || client.nome.split(" ")[0];
+  const clientShort = client.nomeCurto || client.nome;
+  const isPending = (a) =>
+    !a.aprovadoEm && !localStorage.getItem(storageKey.approved(slug, a.id));
+
   qs("#clientFirstName").textContent = firstName;
   qs("#clientNameSidebar").textContent = client.nome;
   qs("#clientSpecialty").textContent = client.especialidade || "";
 
-  // Avatar: logo do cliente se existir, senão iniciais
   const avatarEl = qs("#clientAvatar");
+  const setInitialsAvatar = () => {
+    avatarEl.textContent = initials(client.nome);
+  };
   if (client.logo) {
     const testImg = new Image();
     testImg.onload = () => {
       avatarEl.style.backgroundImage = `url(${client.logo})`;
       avatarEl.textContent = "";
     };
-    testImg.onerror = () => {
-      avatarEl.textContent = (client.nome || "?")
-        .split(" ")
-        .map((p) => p[0])
-        .slice(0, 2)
-        .join("")
-        .toUpperCase();
-    };
+    testImg.onerror = setInitialsAvatar;
     testImg.src = client.logo;
   } else {
-    avatarEl.textContent = (client.nome || "?")
-      .split(" ")
-      .map((p) => p[0])
-      .slice(0, 2)
-      .join("")
-      .toUpperCase();
+    setInitialsAvatar();
   }
 
-  // Instagram link no sidebar
   if (client.instagramUrl && client.instagram) {
     const igLink = qs("#clientInstagram");
     igLink.href = client.instagramUrl;
@@ -254,19 +274,11 @@
         const delta = Number(kpi.delta) || 0;
         const deltaBlock = isText
           ? `<div class="mt-1 text-xs text-slate-500">${esc(kpi.fonte || "")}</div>`
-          : `
-              <div class="mt-1 text-xs ${
-                delta > 0
-                  ? "delta-up"
-                  : delta < 0
-                  ? "delta-down"
-                  : "delta-neutral"
-              } font-medium">
-                ${delta > 0 ? "+" : ""}${delta.toFixed(1)}%${
+          : `<div class="mt-1 text-xs ${deltaClass(delta)} font-medium">
+              ${delta > 0 ? "+" : ""}${delta.toFixed(1)}%${
               delta === 0 ? "" : " vs. mês anterior"
             }
-              </div>
-            `;
+            </div>`;
         return `
           <div class="kpi-card shimmer bg-white/[0.02] border border-white/10 rounded-2xl p-5" data-aos="fade-up" data-aos-delay="${
             i * 60
@@ -282,10 +294,11 @@
       })
       .join("");
 
-    // Anima número nos KPIs numéricos
+    const elsByKpi = {};
+    qsa("[data-kpi]", grid).forEach((el) => (elsByKpi[el.dataset.kpi] = el));
     kpis.forEach((kpi) => {
       if (kpi.formato === "texto") return;
-      const el = grid.querySelector(`[data-kpi="${kpi.id}"]`);
+      const el = elsByKpi[kpi.id];
       if (!el) return;
       countUp(el, kpi.valor, {
         prefix: kpi.formato === "moeda" ? "R$ " : "",
@@ -321,21 +334,13 @@
     }
   }
 
-  function pendingCount() {
-    return (client.aprovacoesPendentes || []).filter(
-      (a) =>
-        !a.aprovadoEm &&
-        !localStorage.getItem(`approved_${slug}_${a.id}`)
-    ).length;
-  }
+  const getPending = () =>
+    (client.aprovacoesPendentes || []).filter(isPending);
+  const pendingCount = () => getPending().length;
 
   function renderOverviewAprovacoes() {
     const box = qs("#overviewAprovacoes");
-    const items = (client.aprovacoesPendentes || []).filter(
-      (a) =>
-        !a.aprovadoEm &&
-        !localStorage.getItem(`approved_${slug}_${a.id}`)
-    );
+    const items = getPending();
     if (!items.length) {
       box.innerHTML = `<div class="text-sm text-slate-400 italic">Nada pendente agora — a gente te avisa aqui e no WhatsApp quando tiver.</div>`;
       updatePendingBadge(0);
@@ -424,10 +429,7 @@
       qs("#igPeriodo").textContent = "Aguardando primeiro fechamento mensal";
     }
 
-    // Gráfico
     renderJornadaChart(hist);
-
-    // Marcos
     renderMarcos(j.marcos || []);
   }
 
@@ -450,7 +452,6 @@
     g1.addColorStop(0, "rgba(63,160,149,0.4)");
     g1.addColorStop(1, "rgba(63,160,149,0)");
 
-    // Annotations: linha de meta + marcos da parceria
     const meta = Number(client.jornadaInstagram?.metaSeguidores) || 0;
     const annotations = {};
     if (meta > 0) {
@@ -473,7 +474,6 @@
         },
       };
     }
-    // Marca os meses com marcos no eixo X
     const marcos = client.jornadaInstagram?.marcos || [];
     marcos.forEach((m, i) => {
       const monthKey = (m.data || "").slice(0, 7);
@@ -821,7 +821,7 @@
   function renderAprovacoes() {
     const grid = qs("#aprovacoesGrid");
     const empty = qs("#aprovacoesEmpty");
-    const pend = (client.aprovacoesPendentes || []).filter((a) => !a.aprovadoEm);
+    const pend = getPending();
     if (!pend.length) {
       grid.innerHTML = "";
       empty.classList.remove("hidden");
@@ -830,7 +830,7 @@
     empty.classList.add("hidden");
     grid.innerHTML = pend
       .map((a) => {
-        const msg = `Olá, time Arvic!\n\nAprovo o vídeo "${a.titulo}" para publicação.\n\n— ${client.nomeCurto || client.nome}`;
+        const msg = `Olá, time Arvic!\n\nAprovo o vídeo "${a.titulo}" para publicação.\n\n— ${clientShort}`;
         const waLink = wa(CFG.whatsapp, msg);
         return `
         <div class="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden" data-aprov-id="${esc(
@@ -876,8 +876,7 @@
       el.addEventListener("click", () => {
         const id = el.dataset.approve;
         const title = el.dataset.approveTitle || "vídeo";
-        const key = `approved_${slug}_${id}`;
-        localStorage.setItem(key, new Date().toISOString());
+        localStorage.setItem(storageKey.approved(slug, id), new Date().toISOString());
         toast(`Aprovação de "${title}" enviada pro time Arvic.`, { icon: "✓" });
         setTimeout(() => {
           const card = el.closest("[data-aprov-id]");
@@ -889,16 +888,14 @@
               chip.textContent = "Aprovação enviada";
             }
             el.textContent = "Enviado ✓";
-            el.className =
-              "flex-1 bg-white/10 text-center text-xs font-semibold py-2 rounded-lg pointer-events-none";
+            el.classList.remove("btn-primary");
+            el.classList.add(
+              "bg-white/10",
+              "text-slate-300",
+              "pointer-events-none"
+            );
           }
-          // Atualiza badge
-          const remaining =
-            (client.aprovacoesPendentes || []).filter(
-              (a) =>
-                !a.aprovadoEm &&
-                !localStorage.getItem(`approved_${slug}_${a.id}`)
-            ).length;
+          const remaining = pendingCount();
           updatePendingBadge(remaining);
           updateFavicon(remaining);
         }, 100);
@@ -970,42 +967,42 @@
       descricao: "Uma entrega saiu boa, ruim, diferente do que esperava — conta pra gente.",
       icon: "💬",
       msg: () =>
-        `Oi, time Arvic! Queria dar um feedback sobre uma entrega.\n\n— ${client.nomeCurto || client.nome}`,
+        `Oi, time Arvic! Queria dar um feedback sobre uma entrega.\n\n— ${clientShort}`,
     },
     {
       titulo: "Pedir ajuste em uma entrega",
       descricao: "Aquele vídeo precisa de um corte, aquela arte pede outro tom.",
       icon: "✏️",
       msg: () =>
-        `Oi, time Arvic! Preciso ajustar algo em uma entrega:\n\n(descreva aqui)\n\n— ${client.nomeCurto || client.nome}`,
+        `Oi, time Arvic! Preciso ajustar algo em uma entrega:\n\n(descreva aqui)\n\n— ${clientShort}`,
     },
     {
       titulo: "Tirar uma dúvida",
       descricao: "Algo não ficou claro sobre campanha, conteúdo, estratégia.",
       icon: "❓",
       msg: () =>
-        `Oi, time Arvic! Tenho uma dúvida:\n\n(digite aqui)\n\n— ${client.nomeCurto || client.nome}`,
+        `Oi, time Arvic! Tenho uma dúvida:\n\n(digite aqui)\n\n— ${clientShort}`,
     },
     {
       titulo: "Agendar uma conversa",
       descricao: "Quer marcar uma reunião extra, gravação ou alinhamento.",
       icon: "📅",
       msg: () =>
-        `Oi, time Arvic! Queria agendar uma conversa.\n\nDia/horário de preferência: \n\n— ${client.nomeCurto || client.nome}`,
+        `Oi, time Arvic! Queria agendar uma conversa.\n\nDia/horário de preferência: \n\n— ${clientShort}`,
     },
     {
       titulo: "Tenho uma ideia pra compartilhar",
       descricao: "Viu uma referência, um formato, um concorrente — manda pra gente.",
       icon: "💡",
       msg: () =>
-        `Oi, time Arvic! Quero compartilhar uma ideia:\n\n(digite aqui)\n\n— ${client.nomeCurto || client.nome}`,
+        `Oi, time Arvic! Quero compartilhar uma ideia:\n\n(digite aqui)\n\n— ${clientShort}`,
     },
     {
       titulo: "Preciso falar urgente",
       descricao: "Fora da rotina. A gente tenta responder rápido.",
       icon: "🚨",
       msg: () =>
-        `Oi, time Arvic! Preciso falar com urgência:\n\n(digite aqui)\n\n— ${client.nomeCurto || client.nome}`,
+        `Oi, time Arvic! Preciso falar com urgência:\n\n(digite aqui)\n\n— ${clientShort}`,
     },
   ];
 
@@ -1050,7 +1047,7 @@
         const showExpr = ativo
           ? "filter === 'todas' || filter === 'ativas'"
           : "filter === 'todas' || filter === 'disponíveis'";
-        const msg = `Oi, time Arvic! Tenho interesse em saber mais sobre "${s.titulo}" pra minha operação.\n\n— ${client.nomeCurto || client.nome}`;
+        const msg = `Oi, time Arvic! Tenho interesse em saber mais sobre "${s.titulo}" pra minha operação.\n\n— ${clientShort}`;
         const waLink = wa(CFG.whatsapp, msg);
         return `
           <div class="svc-card ${
@@ -1124,7 +1121,7 @@
     })
   );
   qs("#logoutBtn").addEventListener("click", () => {
-    localStorage.removeItem("arvic_session_" + slug);
+    localStorage.removeItem(storageKey.session(slug));
     window.location.href = "index.html";
   });
 
@@ -1138,31 +1135,30 @@
   }));
   paletteItems.push(
     { id: "_insta", label: "Abrir Instagram do cliente", type: "action", url: client.instagramUrl },
-    { id: "_wa", label: "Mandar mensagem no WhatsApp da Arvic", type: "action", url: wa(CFG.whatsapp, `Oi, time Arvic!\n\n— ${client.nomeCurto || client.nome}`) },
+    { id: "_wa", label: "Mandar mensagem no WhatsApp da Arvic", type: "action", url: wa(CFG.whatsapp, `Oi, time Arvic!\n\n— ${clientShort}`) },
     { id: "_logout", label: "Sair do portal", type: "logout" }
   );
 
   let paletteIndex = 0;
+  const paletteNode = qs("#palette");
+  const paletteInputNode = qs("#paletteInput");
+  const paletteListNode = qs("#paletteList");
   function openPalette() {
-    const p = qs("#palette");
-    p.classList.remove("hidden");
-    qs("#paletteInput").value = "";
+    paletteNode.classList.remove("hidden");
+    paletteInputNode.value = "";
     paletteIndex = 0;
     renderPaletteList("");
-    setTimeout(() => qs("#paletteInput").focus(), 50);
+    setTimeout(() => paletteInputNode.focus(), 50);
   }
   function closePalette() {
-    qs("#palette").classList.add("hidden");
+    paletteNode.classList.add("hidden");
   }
   function renderPaletteList(query) {
     const q = query.trim().toLowerCase();
-    const items = paletteItems.filter(
-      (it) => !it.url || it.type !== "action" || it.url
-    );
     const matched = q
-      ? items.filter((it) => it.label.toLowerCase().includes(q))
-      : items;
-    const list = qs("#paletteList");
+      ? paletteItems.filter((it) => it.label.toLowerCase().includes(q))
+      : paletteItems;
+    const list = paletteListNode;
     if (!matched.length) {
       list.innerHTML = `<div class="palette-item text-slate-500">Sem resultados</div>`;
       return;
@@ -1197,7 +1193,7 @@
     } else if (type === "action" && url) {
       window.open(url, "_blank", "noopener");
     } else if (type === "logout") {
-      localStorage.removeItem("arvic_session_" + slug);
+      localStorage.removeItem(storageKey.session(slug));
       window.location.href = "index.html";
     }
   }
@@ -1209,13 +1205,12 @@
       openPalette();
       return;
     }
-    if (!qs("#palette").classList.contains("hidden")) {
+    if (!paletteNode.classList.contains("hidden")) {
       if (e.key === "Escape") {
         closePalette();
       } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
         e.preventDefault();
-        const list = qs("#paletteList");
-        const items = qsa("[data-pidx]", list);
+        const items = qsa("[data-pidx]", paletteListNode);
         paletteIndex =
           (paletteIndex + (e.key === "ArrowDown" ? 1 : -1) + items.length) %
           items.length;
@@ -1223,7 +1218,7 @@
         items[paletteIndex].scrollIntoView({ block: "nearest" });
       } else if (e.key === "Enter") {
         e.preventDefault();
-        const items = qsa("[data-pidx]", qs("#paletteList"));
+        const items = qsa("[data-pidx]", paletteListNode);
         if (items[paletteIndex]) execPaletteItem(items[paletteIndex]);
       }
       return;
@@ -1246,11 +1241,11 @@
     }
   });
 
-  qs("#paletteInput").addEventListener("input", (e) => {
+  paletteInputNode.addEventListener("input", (e) => {
     paletteIndex = 0;
     renderPaletteList(e.target.value);
   });
-  qs("#palette").addEventListener("click", (e) => {
+  paletteNode.addEventListener("click", (e) => {
     if (e.target.id === "palette") closePalette();
   });
   qs("#openPaletteBtn").addEventListener("click", openPalette);
@@ -1262,14 +1257,13 @@
   if (sobreCta) {
     sobreCta.href = wa(
       CFG.whatsapp,
-      `Oi, time Arvic! Queria entender melhor como vocês podem me ajudar a evoluir.\n\n— ${client.nomeCurto || client.nome}`
+      `Oi, time Arvic! Queria entender melhor como vocês podem me ajudar a evoluir.\n\n— ${clientShort}`
     );
   }
 
   // ==========================================================
   //  Render inicial
   // ==========================================================
-  // Registra plugins do Chart.js (quando disponíveis via CDN)
   if (window.Chart && window["chartjs-plugin-annotation"]) {
     Chart.register(window["chartjs-plugin-annotation"]);
   }
@@ -1287,11 +1281,9 @@
   renderMensagens();
   renderCatalogo();
 
-  // Favicon com contador de aprovações pendentes
   updateFavicon(pendingCount());
 
-  // Toast de boas-vindas (só na primeira visita)
-  const welcomeKey = "arvic_welcomed_" + slug;
+  const welcomeKey = storageKey.welcomed(slug);
   if (!localStorage.getItem(welcomeKey)) {
     setTimeout(() => {
       toast(`Bem-vindo(a) ao portal, ${firstName}. Aproveita a visita.`, {

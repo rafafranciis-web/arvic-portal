@@ -14,9 +14,7 @@ body {
   font-family: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui;
 }
 
-/* ==========================================================
-   FUNDO AMBIENTE — pattern de dots sutil
-   ========================================================== */
+/* FUNDO AMBIENTE — pattern de dots sutil */
 body {
   background-color: #0b0f1a;
   background-image:
@@ -25,9 +23,7 @@ body {
   background-position: 0 0;
 }
 
-/* ==========================================================
-   MARCA ARVIC
-   ========================================================== */
+/* MARCA ARVIC */
 .brand-mark {
   background-image: url("../assets/brand/arvic-logo-cinza.png");
   background-repeat: no-repeat;
@@ -52,9 +48,7 @@ body {
   66% { transform: translate(-15px, 20px) scale(0.98); }
 }
 
-/* ==========================================================
-   SCROLLBAR
-   ========================================================== */
+/* SCROLLBAR */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
@@ -63,9 +57,7 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.16); }
 
-/* ==========================================================
-   ANIMAÇÕES DE SEÇÃO
-   ========================================================== */
+/* ANIMAÇÕES DE SEÇÃO */
 @keyframes sectionIn {
   from {
     opacity: 0;
@@ -122,9 +114,7 @@ section[data-view] {
   100% { left: 130%; }
 }
 
-/* ==========================================================
-   STATUS CHIPS
-   ========================================================== */
+/* STATUS CHIPS */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -142,9 +132,7 @@ section[data-view] {
 .chip-concluido { background: rgba(148, 163, 184, 0.14); color: #cbd5e1; }
 .chip-pendente  { background: rgba(239, 68, 68, 0.14);  color: #f87171; }
 
-/* ==========================================================
-   SIDEBAR
-   ========================================================== */
+/* SIDEBAR */
 .side-link {
   display: flex;
   align-items: center;
@@ -175,9 +163,7 @@ section[data-view] {
   background: #3fa095;
 }
 
-/* ==========================================================
-   CARDS
-   ========================================================== */
+/* CARDS */
 .kpi-card {
   transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
 }
@@ -202,16 +188,12 @@ section[data-view] {
 }
 .video-card:hover { transform: translateY(-2px); }
 
-/* ==========================================================
-   DELTAS
-   ========================================================== */
+/* DELTAS */
 .delta-up      { color: #5cc2b6; }
 .delta-down    { color: #f87171; }
 .delta-neutral { color: #94a3b8; }
 
-/* ==========================================================
-   BOTÕES CTA COM GRADIENTE
-   ========================================================== */
+/* BOTÕES CTA COM GRADIENTE */
 .btn-primary {
   background: linear-gradient(135deg, #3FA095 0%, #2E8A7F 100%);
   color: #0b0f1a;
@@ -228,9 +210,7 @@ section[data-view] {
   transform: translateY(0);
 }
 
-/* ==========================================================
-   TOAST
-   ========================================================== */
+/* TOAST */
 #toastHost {
   position: fixed;
   bottom: 1.5rem;
@@ -280,9 +260,7 @@ section[data-view] {
   to { opacity: 0; transform: translateY(12px); }
 }
 
-/* ==========================================================
-   COMMAND PALETTE (Cmd+K)
-   ========================================================== */
+/* COMMAND PALETTE (Cmd+K) */
 #palette {
   position: fixed;
   inset: 0;
@@ -326,14 +304,10 @@ section[data-view] {
   color: #cbd5e1;
 }
 
-/* ==========================================================
-   NÚMERO ANIMADO (COUNT-UP)
-   ========================================================== */
+/* NÚMERO ANIMADO (COUNT-UP) */
 .count-up { font-variant-numeric: tabular-nums; }
 
-/* ==========================================================
-   EMPTY STATE ILUSTRADO
-   ========================================================== */
+/* EMPTY STATE ILUSTRADO */
 .empty-ill {
   display: flex;
   flex-direction: column;
@@ -347,9 +321,7 @@ section[data-view] {
 .empty-ill-title { font-weight: 600; color: #cbd5e1; margin-bottom: 0.25rem; }
 .empty-ill-sub   { font-size: 0.875rem; color: #64748b; max-width: 20rem; }
 
-/* ==========================================================
-   TYPEWRITER
-   ========================================================== */
+/* TYPEWRITER */
 .typewriter::after {
   content: "|";
   display: inline-block;
@@ -362,16 +334,13 @@ section[data-view] {
   50% { opacity: 0; }
 }
 
-/* ==========================================================
-   FOCUS
-   ========================================================== */
+/* FOCUS */
 *:focus-visible {
   outline: 2px solid rgba(63, 160, 149, 0.6);
   outline-offset: 2px;
   border-radius: 6px;
 }
 
-/* Reduz animação se o usuário preferir */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -380,6 +349,4 @@ section[data-view] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .watermark-float { animation: none; }
-  .shimmer::after  { animation: none; }
 }
