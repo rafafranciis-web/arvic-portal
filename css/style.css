@@ -14,6 +14,33 @@ body {
   font-family: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui;
 }
 
+.font-serif {
+  font-family: "Instrument Serif", "Times New Roman", Georgia, serif;
+  font-weight: 400;
+}
+
+/* Marker numerado tipo "001 — Acesso ao portal" */
+.num-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.5);
+  font-variant-numeric: tabular-nums;
+}
+.num-label > span:first-child {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+}
+
+/* Numerais tabulares pra números importantes (KPIs, datas) */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
 /* FUNDO AMBIENTE — pattern de dots sutil */
 body {
   background-color: #0b0f1a;
@@ -89,15 +116,17 @@ body {
 @keyframes sectionIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(14px);
+    filter: blur(2px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
 }
 section[data-view] {
-  animation: sectionIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: sectionIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes shake {

@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
@@ -35,135 +35,128 @@
     </script>
   </head>
   <body class="bg-ink-900 text-slate-100 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
-    <!-- Ambient background -->
-    <div class="pointer-events-none absolute inset-0 opacity-60">
-      <div class="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-white/[0.06] blur-3xl"></div>
-      <div class="absolute top-1/2 -right-40 h-[500px] w-[500px] rounded-full bg-white/[0.03] blur-3xl"></div>
-    </div>
 
-    <header class="relative px-6 md:px-10 py-5 flex items-center justify-between">
+    <header class="relative px-6 md:px-12 py-6 flex items-center justify-between border-b border-white/[0.04]">
       <div class="flex items-center gap-3">
         <img
           src="assets/brand/arvic-logo-white.png"
           alt="Arvic Group"
-          class="h-9 w-auto"
+          class="h-7 w-auto"
         />
-        <div class="leading-tight">
-          <div class="font-display font-extrabold tracking-tight text-lg">Arvic Group</div>
-          <div class="text-[11px] uppercase tracking-[0.2em] text-slate-400">
-            Portal do Cliente
-          </div>
-        </div>
+        <div class="font-display font-extrabold tracking-tight text-base">Arvic Group</div>
       </div>
-      <a
-        href="#acesso"
-        class="text-sm font-medium text-slate-300 hover:text-white transition"
-        >Acessar portal →</a
-      >
+      <div class="flex items-center gap-6 text-[10px] uppercase tracking-[0.3em] text-white/40">
+        <span class="hidden md:inline">Portal · v0.2</span>
+        <span id="dateStamp"></span>
+      </div>
     </header>
 
-    <main class="relative flex-1 flex items-center py-12">
-      <div class="w-full max-w-6xl mx-auto px-6 md:px-10 grid md:grid-cols-5 gap-10 items-center">
-        <section class="md:col-span-3" data-aos="fade-right" data-aos-duration="700">
-          <div class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-slate-300 mb-5">
-            <span class="h-1.5 w-1.5 rounded-full bg-white/70 animate-pulse"></span>
-            Área exclusiva de cliente
-          </div>
-          <h1
-            class="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tight min-h-[240px] md:min-h-[320px]"
-          >
-            <span id="heroTypewriter" class="typewriter"></span><br />
-            <span id="heroAccent" class="bg-gradient-to-br from-white via-slate-300 to-slate-500 bg-clip-text text-transparent opacity-0 transition-opacity duration-700">em um só lugar.</span>
-          </h1>
-          <p class="mt-6 text-slate-400 text-lg leading-relaxed max-w-xl">
-            Entregas, crescimento no Instagram, aprovação de vídeos e um canal
-            direto com o nosso time. Sem planilha solta, sem grupo de WhatsApp
-            perdido.
-          </p>
+    <main class="relative flex-1 grid md:grid-cols-12">
+      <!-- ESQUERDA: hero editorial -->
+      <section class="md:col-span-7 relative px-6 md:px-12 lg:px-20 py-16 md:py-24 flex flex-col justify-center" data-aos="fade-up" data-aos-duration="700">
+        <div class="num-label mb-8">
+          <span>001</span>
+          <span class="h-px w-8 bg-white/20"></span>
+          <span>Acesso ao portal</span>
+        </div>
 
-          <div
-            id="acesso"
-            class="mt-10 bg-white/[0.03] backdrop-blur border border-white/10 rounded-2xl p-6 max-w-md"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            <div class="font-display font-bold text-lg mb-1">Acessar meu portal</div>
-            <p class="text-sm text-slate-400 mb-4">
-              Com o código e a senha que a Arvic te mandou.
+        <h1
+          id="heroTitle"
+          class="font-display font-extrabold text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-[-0.03em] min-h-[280px] md:min-h-[360px] lg:min-h-[420px]"
+        >
+          <span id="heroTypewriter" class="typewriter"></span><br />
+          <span id="heroAccent" class="bg-gradient-to-br from-white via-slate-300 to-slate-500 bg-clip-text text-transparent opacity-0 transition-opacity duration-700">em um só lugar.</span>
+        </h1>
+
+        <p class="mt-8 font-serif italic text-2xl md:text-3xl leading-snug text-slate-300 max-w-xl">
+          Estúdio de marketing e crescimento digital.
+        </p>
+
+        <p class="mt-6 text-base text-slate-400 leading-relaxed max-w-lg">
+          Entregas, crescimento no Instagram, aprovação de vídeos e um canal direto com o nosso time. Sem planilha solta, sem grupo de WhatsApp perdido.
+        </p>
+
+        <!-- LOGIN — tratado como uma área editorial, não card -->
+        <div id="acesso" class="mt-12 max-w-sm" data-aos="fade-up" data-aos-delay="200">
+          <div class="num-label mb-5">
+            <span>002</span>
+            <span class="h-px w-8 bg-white/20"></span>
+            <span>Entrar</span>
+          </div>
+          <form id="loginForm" class="space-y-4">
+            <label class="block">
+              <span class="text-[10px] uppercase tracking-[0.25em] text-slate-400 block mb-2">Código</span>
+              <input
+                type="text"
+                id="clientCode"
+                placeholder="instituto-caquetti"
+                autocomplete="off"
+                class="w-full bg-transparent border-b border-white/15 px-0 py-2 text-base focus:outline-none focus:border-white/50 transition placeholder:text-white/20"
+                required
+              />
+            </label>
+            <label class="block">
+              <span class="text-[10px] uppercase tracking-[0.25em] text-slate-400 block mb-2">Senha</span>
+              <input
+                type="password"
+                id="clientPassword"
+                class="w-full bg-transparent border-b border-white/15 px-0 py-2 text-base focus:outline-none focus:border-white/50 transition"
+                required
+              />
+            </label>
+            <button
+              type="submit"
+              class="w-full btn-primary rounded-full py-3 px-6 text-sm mt-4"
+            >
+              Entrar no portal
+            </button>
+            <div id="loginError" class="text-xs text-red-400 hidden">
+              Código ou senha não batem. Confere os dados que a Arvic te enviou.
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- DIREITA: marca + manifesto, integrada (não é card) -->
+      <aside class="md:col-span-5 relative bg-black border-t md:border-t-0 md:border-l border-white/[0.05] grain vignette-lift" data-aos="fade-left" data-aos-delay="200">
+        <div class="relative h-full flex flex-col justify-between p-10 md:p-14 min-h-[600px]">
+          <div class="flex items-start justify-between text-[9px] uppercase tracking-[0.3em] text-white/35">
+            <span>003 / Arvic Group</span>
+            <span>Est. 2022</span>
+          </div>
+
+          <div class="brand-lockup watermark-float h-56 md:h-64 w-full" role="img" aria-label="Arvic Group"></div>
+
+          <div>
+            <div class="h-px w-12 bg-white/25 mb-6"></div>
+            <p class="font-serif italic text-2xl md:text-3xl leading-snug text-white/90 mb-4">
+              Estratégia, operação e execução —<br />sob a mesma régua.
             </p>
-            <form id="loginForm" class="space-y-3">
-              <label class="block">
-                <span class="text-xs font-medium text-slate-300 block mb-1"
-                  >Código de acesso</span
-                >
-                <input
-                  type="text"
-                  id="clientCode"
-                  placeholder="ex: instituto-caquetti"
-                  autocomplete="off"
-                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition"
-                  required
-                />
-              </label>
-              <label class="block">
-                <span class="text-xs font-medium text-slate-300 block mb-1"
-                  >Senha</span
-                >
-                <input
-                  type="password"
-                  id="clientPassword"
-                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition"
-                  required
-                />
-              </label>
-              <button
-                type="submit"
-                class="w-full btn-primary rounded-lg py-2.5 text-sm"
-              >
-                Entrar no portal
-              </button>
-              <div id="loginError" class="text-xs text-red-400 hidden">
-                Código ou senha não batem. Confere os dados que a Arvic te enviou.
-              </div>
-            </form>
-          </div>
-        </section>
-
-        <aside class="md:col-span-2 hidden md:block" data-aos="fade-left" data-aos-delay="200">
-          <div
-            class="relative aspect-[4/5] rounded-2xl bg-black border border-white/[0.06] overflow-hidden grain vignette-lift"
-            style="box-shadow: 0 30px 70px -20px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.02);"
-          >
-            <div class="relative h-full flex flex-col justify-between p-10">
-              <div class="flex items-start justify-between text-[9px] uppercase tracking-[0.3em] text-white/35">
-                <span>Portal</span>
-                <span>v0.2 · 2026</span>
-              </div>
-              <div class="brand-lockup watermark-float h-56 w-full" role="img" aria-label="Arvic Group"></div>
-              <div>
-                <div class="h-px w-10 bg-white/20 mb-5"></div>
-                <div class="font-display font-extrabold text-xl leading-snug tracking-tight text-white mb-3">
-                  Estratégia, operação e execução — sob a mesma régua.
-                </div>
-                <div class="text-[10px] uppercase tracking-[0.3em] text-white/40">
-                  Arvic Group · Est. 2022
-                </div>
-              </div>
+            <div class="text-[10px] uppercase tracking-[0.3em] text-white/40">
+              Marketing que escala negócios
             </div>
           </div>
-        </aside>
-      </div>
+        </div>
+      </aside>
     </main>
 
-    <footer class="relative px-6 md:px-10 py-6 text-xs text-slate-500 flex items-center justify-between">
-      <div>© <span id="year"></span> Arvic Group</div>
-      <div class="hidden md:block">Portal v0.2</div>
+    <footer class="relative px-6 md:px-12 py-6 text-[10px] uppercase tracking-[0.3em] text-white/35 flex items-center justify-between border-t border-white/[0.04]">
+      <div>© <span id="year"></span> Arvic Group · Todos os direitos reservados</div>
+      <div class="hidden md:block">Portal Arvic Group</div>
     </footer>
 
     <script src="js/clients.js"></script>
     <script>
-      document.getElementById("year").textContent = new Date().getFullYear();
-      if (window.AOS) AOS.init({ duration: 600, easing: "ease-out-cubic", once: true });
+      const _now = new Date();
+      document.getElementById("year").textContent = _now.getFullYear();
+      const _ds = document.getElementById("dateStamp");
+      if (_ds) {
+        const dd = String(_now.getDate()).padStart(2, "0");
+        const mm = String(_now.getMonth() + 1).padStart(2, "0");
+        const yy = String(_now.getFullYear()).slice(2);
+        _ds.textContent = `${dd}.${mm}.${yy}`;
+      }
+      if (window.AOS) AOS.init({ duration: 700, easing: "ease-out-cubic", once: true });
 
       // Typewriter no headline
       (function () {

@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
@@ -134,18 +134,18 @@
       <main class="flex-1 min-w-0">
         <!-- Top bar -->
         <div
-          class="sticky top-0 z-10 bg-ink-900/80 backdrop-blur border-b border-white/5 px-6 md:px-10 py-4 flex items-center justify-between gap-4"
+          class="sticky top-0 z-10 bg-ink-900/85 backdrop-blur border-b border-white/5 px-6 md:px-10 py-5 flex items-center justify-between gap-4"
         >
           <div class="min-w-0">
-            <div class="text-[11px] uppercase tracking-[0.2em] text-slate-400" id="sectionLabel">
+            <div class="text-[10px] uppercase tracking-[0.3em] text-slate-400 mb-1" id="sectionLabel">
               Visão Geral
             </div>
-            <h1 id="pageTitle" class="font-display font-extrabold text-xl md:text-2xl truncate">
+            <h1 id="pageTitle" class="font-display font-extrabold text-2xl md:text-3xl tracking-[-0.02em] truncate">
               Olá, <span id="clientFirstName"></span>
             </h1>
           </div>
-          <div class="text-right hidden md:block shrink-0">
-            <div class="text-xs text-slate-400" id="todayLabel"></div>
+          <div class="text-right hidden md:flex flex-col items-end gap-1 shrink-0">
+            <div class="text-[10px] uppercase tracking-[0.3em] text-white/40 tnum" id="dateStamp"></div>
             <div class="text-sm font-medium text-slate-200" id="clientSpecialty"></div>
           </div>
         </div>
@@ -488,7 +488,7 @@
               <div class="absolute inset-0 bg-[radial-gradient(circle_at_85%_75%,rgba(242,148,66,0.08),transparent_55%)] pointer-events-none"></div>
               <div class="relative">
                 <div class="text-[11px] uppercase tracking-[0.25em] text-slate-400 mb-4">Manifesto</div>
-                <blockquote class="font-display font-extrabold text-3xl md:text-4xl leading-tight tracking-tight mb-4">
+                <blockquote class="font-serif text-3xl md:text-5xl leading-[1.1] tracking-[-0.01em] mb-4 text-white">
                   "Sorte é quando a oportunidade encontra a competência."
                 </blockquote>
                 <p class="text-slate-400 text-sm">É assim que a Arvic opera: construindo a competência todo dia, pronta pra oportunidade quando ela chega.</p>

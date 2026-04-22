@@ -254,11 +254,14 @@
     igLink.classList.add("flex");
   }
 
-  qs("#todayLabel").textContent = new Date().toLocaleDateString("pt-BR", {
-    weekday: "long",
-    day: "2-digit",
-    month: "long",
-  });
+  const _now = new Date();
+  const _ds = qs("#dateStamp");
+  if (_ds) {
+    const dd = String(_now.getDate()).padStart(2, "0");
+    const mm = String(_now.getMonth() + 1).padStart(2, "0");
+    const yy = String(_now.getFullYear()).slice(2);
+    _ds.textContent = `${dd}.${mm}.${yy}`;
+  }
   document.title = `${client.nome} — Portal Arvic Group`;
 
   // ==========================================================
@@ -273,20 +276,22 @@
         const display = isText ? esc(kpi.valor || "—") : "0";
         const delta = Number(kpi.delta) || 0;
         const deltaBlock = isText
-          ? `<div class="mt-1 text-xs text-slate-500">${esc(kpi.fonte || "")}</div>`
-          : `<div class="mt-1 text-xs ${deltaClass(delta)} font-medium">
+          ? `<div class="mt-2 text-[10px] uppercase tracking-[0.25em] text-slate-500">${esc(kpi.fonte || "")}</div>`
+          : `<div class="mt-2 text-[10px] uppercase tracking-[0.25em] ${deltaClass(delta)} font-medium">
               ${delta > 0 ? "+" : ""}${delta.toFixed(1)}%${
-              delta === 0 ? "" : " vs. mês anterior"
+              delta === 0 ? "" : " · mês anterior"
             }
             </div>`;
+        const numStr = String(i + 1).padStart(3, "0");
         return `
-          <div class="kpi-card shimmer bg-white/[0.02] border border-white/10 rounded-2xl p-5" data-aos="fade-up" data-aos-delay="${
-            i * 60
+          <div class="kpi-card shimmer bg-white/[0.02] border border-white/10 rounded-2xl p-5 relative" data-aos="fade-up" data-aos-delay="${
+            i * 90
           }">
-            <div class="text-[11px] uppercase tracking-[0.18em] text-slate-400">${esc(
+            <div class="absolute top-4 right-4 text-[9px] uppercase tracking-[0.25em] text-white/25 tnum">${numStr}</div>
+            <div class="text-[10px] uppercase tracking-[0.25em] text-slate-400">${esc(
               kpi.label
             )}</div>
-            <div class="mt-2 font-display font-extrabold text-3xl md:text-4xl count-up" data-kpi="${esc(
+            <div class="mt-3 font-display font-extrabold text-3xl md:text-4xl tracking-[-0.02em] tnum count-up" data-kpi="${esc(
               kpi.id
             )}">${display}</div>
             ${deltaBlock}
@@ -611,7 +616,7 @@
     return {
       responsive: true,
       maintainAspectRatio: false,
-      animation: { duration: 1100, easing: "easeOutQuart" },
+      animation: { duration: 1500, easing: "easeOutQuart" },
       interaction: { mode: "index", intersect: false },
       plugins: {
         legend: {
