@@ -15,6 +15,8 @@ window.ARVIC_CONFIG = {
   whatsappDisplay: "(11) 94260-5977",
   email: "contato@arvicgroup.com",
   instagram: "@arvicgroup",
+  // Senha do painel admin (Rafael). Trocar depois do primeiro login real.
+  adminPassword: "arvic-admin-2026",
 };
 
 // -------------------------------------------------------------
