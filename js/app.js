@@ -98,6 +98,86 @@
   const wa = (numero, texto) =>
     `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
 
+  // ---------- Toast ----------
+  function toast(message, { icon = "✓", duration = 3200 } = {}) {
+    const host = qs("#toastHost");
+    if (!host) return;
+    const el = document.createElement("div");
+    el.className = "toast";
+    el.innerHTML = `
+      <span class="toast-icon">${icon}</span>
+      <span>${esc(message)}</span>`;
+    host.appendChild(el);
+    setTimeout(() => {
+      el.classList.add("toast-out");
+      setTimeout(() => el.remove(), 300);
+    }, duration);
+  }
+
+  // ---------- Count up ----------
+  function countUp(el, target, { duration = 1000, prefix = "", suffix = "" } = {}) {
+    if (!el) return;
+    const startTime = performance.now();
+    const startValue = 0;
+    const end = Number(target) || 0;
+    if (end === 0) {
+      el.textContent = prefix + "0" + suffix;
+      return;
+    }
+    const isMoney = prefix === "R$ ";
+    function frame(now) {
+      const p = Math.min(1, (now - startTime) / duration);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      const current = startValue + (end - startValue) * eased;
+      el.textContent =
+        prefix +
+        (isMoney
+          ? new Intl.NumberFormat("pt-BR", {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            }).format(current)
+          : new Intl.NumberFormat("pt-BR").format(Math.round(current))) +
+        suffix;
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // ---------- Dynamic favicon ----------
+  function updateFavicon(pendingCount) {
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 32;
+      const c = canvas.getContext("2d");
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        c.drawImage(img, 0, 0, 32, 32);
+        if (pendingCount > 0) {
+          c.fillStyle = "#F29442";
+          c.beginPath();
+          c.arc(24, 8, 7, 0, Math.PI * 2);
+          c.fill();
+          c.fillStyle = "#0b0f1a";
+          c.font = "bold 10px Inter, sans-serif";
+          c.textAlign = "center";
+          c.textBaseline = "middle";
+          c.fillText(String(Math.min(9, pendingCount)), 24, 9);
+        }
+        let link = qs("link[rel='icon']");
+        if (!link) {
+          link = document.createElement("link");
+          link.rel = "icon";
+          document.head.appendChild(link);
+        }
+        link.href = canvas.toDataURL("image/png");
+      };
+      img.src = "assets/brand/arvic-icon.png";
+    } catch (e) {
+      /* silent */
+    }
+  }
+
   // ---------- Auth gate ----------
   const slug = (getParam("c") || "").trim().toLowerCase();
   const client = (window.ARVIC_CLIENTS || {})[slug];
@@ -118,12 +198,42 @@
   qs("#clientFirstName").textContent = firstName;
   qs("#clientNameSidebar").textContent = client.nome;
   qs("#clientSpecialty").textContent = client.especialidade || "";
-  qs("#clientAvatar").textContent = (client.nome || "?")
-    .split(" ")
-    .map((p) => p[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
+
+  // Avatar: logo do cliente se existir, senão iniciais
+  const avatarEl = qs("#clientAvatar");
+  if (client.logo) {
+    const testImg = new Image();
+    testImg.onload = () => {
+      avatarEl.style.backgroundImage = `url(${client.logo})`;
+      avatarEl.textContent = "";
+    };
+    testImg.onerror = () => {
+      avatarEl.textContent = (client.nome || "?")
+        .split(" ")
+        .map((p) => p[0])
+        .slice(0, 2)
+        .join("")
+        .toUpperCase();
+    };
+    testImg.src = client.logo;
+  } else {
+    avatarEl.textContent = (client.nome || "?")
+      .split(" ")
+      .map((p) => p[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
+  }
+
+  // Instagram link no sidebar
+  if (client.instagramUrl && client.instagram) {
+    const igLink = qs("#clientInstagram");
+    igLink.href = client.instagramUrl;
+    qs("#clientInstagramHandle").textContent = client.instagram;
+    igLink.classList.remove("hidden");
+    igLink.classList.add("flex");
+  }
+
   qs("#todayLabel").textContent = new Date().toLocaleDateString("pt-BR", {
     weekday: "long",
     day: "2-digit",
@@ -139,17 +249,12 @@
     const kpis = client.kpis || [];
     grid.innerHTML = kpis
       .map((kpi, i) => {
-        const value =
-          kpi.formato === "moeda"
-            ? fmt.money(kpi.valor)
-            : kpi.formato === "texto"
-            ? esc(kpi.valor || "—")
-            : fmt.num(kpi.valor);
+        const isText = kpi.formato === "texto";
+        const display = isText ? esc(kpi.valor || "—") : "0";
         const delta = Number(kpi.delta) || 0;
-        const deltaBlock =
-          kpi.formato === "texto"
-            ? `<div class="mt-1 text-xs text-slate-500">${esc(kpi.fonte || "")}</div>`
-            : `
+        const deltaBlock = isText
+          ? `<div class="mt-1 text-xs text-slate-500">${esc(kpi.fonte || "")}</div>`
+          : `
               <div class="mt-1 text-xs ${
                 delta > 0
                   ? "delta-up"
@@ -157,23 +262,36 @@
                   ? "delta-down"
                   : "delta-neutral"
               } font-medium">
-                ${delta > 0 ? "+" : ""}${delta.toFixed(1)}% ${
-                delta === 0 ? "" : "vs. mês anterior"
-              }
+                ${delta > 0 ? "+" : ""}${delta.toFixed(1)}%${
+              delta === 0 ? "" : " vs. mês anterior"
+            }
               </div>
             `;
         return `
-          <div class="kpi-card bg-white/[0.02] border border-white/10 rounded-2xl p-5" data-aos="fade-up" data-aos-delay="${
+          <div class="kpi-card shimmer bg-white/[0.02] border border-white/10 rounded-2xl p-5" data-aos="fade-up" data-aos-delay="${
             i * 60
           }">
             <div class="text-[11px] uppercase tracking-[0.18em] text-slate-400">${esc(
               kpi.label
             )}</div>
-            <div class="mt-2 font-display font-extrabold text-2xl md:text-3xl">${value}</div>
+            <div class="mt-2 font-display font-extrabold text-3xl md:text-4xl count-up" data-kpi="${esc(
+              kpi.id
+            )}">${display}</div>
             ${deltaBlock}
           </div>`;
       })
       .join("");
+
+    // Anima número nos KPIs numéricos
+    kpis.forEach((kpi) => {
+      if (kpi.formato === "texto") return;
+      const el = grid.querySelector(`[data-kpi="${kpi.id}"]`);
+      if (!el) return;
+      countUp(el, kpi.valor, {
+        prefix: kpi.formato === "moeda" ? "R$ " : "",
+        duration: 1100,
+      });
+    });
   }
 
   function renderActiveServices() {
@@ -203,11 +321,24 @@
     }
   }
 
+  function pendingCount() {
+    return (client.aprovacoesPendentes || []).filter(
+      (a) =>
+        !a.aprovadoEm &&
+        !localStorage.getItem(`approved_${slug}_${a.id}`)
+    ).length;
+  }
+
   function renderOverviewAprovacoes() {
     const box = qs("#overviewAprovacoes");
-    const items = (client.aprovacoesPendentes || []).filter((a) => !a.aprovadoEm);
+    const items = (client.aprovacoesPendentes || []).filter(
+      (a) =>
+        !a.aprovadoEm &&
+        !localStorage.getItem(`approved_${slug}_${a.id}`)
+    );
     if (!items.length) {
-      box.innerHTML = `<div class="text-sm text-slate-400 italic">Nada pendente agora.</div>`;
+      box.innerHTML = `<div class="text-sm text-slate-400 italic">Nada pendente agora — a gente te avisa aqui e no WhatsApp quando tiver.</div>`;
+      updatePendingBadge(0);
       return;
     }
     box.innerHTML = items
@@ -223,12 +354,7 @@
         </div>`
       )
       .join("");
-    // Badge na sidebar
-    const badge = qs("#pendingBadge");
-    if (items.length > 0) {
-      badge.classList.remove("hidden");
-      badge.textContent = items.length;
-    }
+    updatePendingBadge(items.length);
   }
 
   function renderOverviewAgenda() {
@@ -321,8 +447,48 @@
     const labels = hist.map((h) => fmt.mesCurto(h.mes));
     const ctx = canvas.getContext("2d");
     const g1 = ctx.createLinearGradient(0, 0, 0, 300);
-    g1.addColorStop(0, "rgba(63,160,149,0.35)");
+    g1.addColorStop(0, "rgba(63,160,149,0.4)");
     g1.addColorStop(1, "rgba(63,160,149,0)");
+
+    // Annotations: linha de meta + marcos da parceria
+    const meta = Number(client.jornadaInstagram?.metaSeguidores) || 0;
+    const annotations = {};
+    if (meta > 0) {
+      annotations["meta"] = {
+        type: "line",
+        yMin: meta,
+        yMax: meta,
+        borderColor: "rgba(242,148,66,0.6)",
+        borderWidth: 1.5,
+        borderDash: [6, 5],
+        label: {
+          display: true,
+          content: "Meta · " + fmt.num(meta),
+          position: "end",
+          color: "#F29442",
+          backgroundColor: "rgba(242,148,66,0.12)",
+          font: { size: 10, weight: "600" },
+          padding: 6,
+          borderRadius: 6,
+        },
+      };
+    }
+    // Marca os meses com marcos no eixo X
+    const marcos = client.jornadaInstagram?.marcos || [];
+    marcos.forEach((m, i) => {
+      const monthKey = (m.data || "").slice(0, 7);
+      const idx = hist.findIndex((h) => h.mes === monthKey);
+      if (idx === -1) return;
+      annotations["marco-" + i] = {
+        type: "point",
+        xValue: idx,
+        yValue: hist[idx].seguidores || 0,
+        radius: 8,
+        borderColor: "#F29442",
+        borderWidth: 2,
+        backgroundColor: "rgba(242,148,66,0.25)",
+      };
+    });
 
     jornadaChart = new Chart(ctx, {
       type: "line",
@@ -338,7 +504,7 @@
             borderWidth: 2.5,
             fill: true,
             pointRadius: 4,
-            pointHoverRadius: 6,
+            pointHoverRadius: 7,
             pointBackgroundColor: "#3FA095",
             pointBorderColor: "#0b0f1a",
             pointBorderWidth: 2,
@@ -370,7 +536,7 @@
           },
         ],
       },
-      options: chartOptions(),
+      options: chartOptions({ annotations }),
     });
   }
 
@@ -441,11 +607,11 @@
     });
   }
 
-  function chartOptions({ showLegend = true } = {}) {
+  function chartOptions({ showLegend = true, annotations = {} } = {}) {
     return {
       responsive: true,
       maintainAspectRatio: false,
-      animation: { duration: 900, easing: "easeOutQuart" },
+      animation: { duration: 1100, easing: "easeOutQuart" },
       interaction: { mode: "index", intersect: false },
       plugins: {
         legend: {
@@ -460,6 +626,11 @@
           bodyColor: "#cbd5e1",
           padding: 12,
           cornerRadius: 8,
+          displayColors: true,
+          usePointStyle: true,
+        },
+        annotation: {
+          annotations,
         },
       },
       scales: {
@@ -691,8 +862,8 @@
                 class="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-center text-xs font-medium py-2 rounded-lg transition">
                 Ver no Drive
               </a>
-              <a href="${waLink}" target="_blank" rel="noopener" data-approve="${esc(a.id)}"
-                class="flex-1 bg-brand-500 hover:bg-brand-600 text-ink-900 font-semibold text-center text-xs py-2 rounded-lg transition">
+              <a href="${waLink}" target="_blank" rel="noopener" data-approve="${esc(a.id)}" data-approve-title="${esc(a.titulo)}"
+                class="flex-1 btn-primary text-center text-xs py-2 rounded-lg">
                 Aprovar
               </a>
             </div>
@@ -704,24 +875,46 @@
     qsa("[data-approve]", grid).forEach((el) => {
       el.addEventListener("click", () => {
         const id = el.dataset.approve;
+        const title = el.dataset.approveTitle || "vídeo";
         const key = `approved_${slug}_${id}`;
         localStorage.setItem(key, new Date().toISOString());
+        toast(`Aprovação de "${title}" enviada pro time Arvic.`, { icon: "✓" });
         setTimeout(() => {
           const card = el.closest("[data-aprov-id]");
           if (card) {
-            card.style.opacity = "0.5";
+            card.style.opacity = "0.55";
             const chip = qs(".chip-em-revisao", card);
             if (chip) {
               chip.className = "chip chip-ativo text-[10px]";
               chip.textContent = "Aprovação enviada";
             }
             el.textContent = "Enviado ✓";
-            el.classList.remove("bg-brand-500", "hover:bg-brand-600");
-            el.classList.add("bg-white/10", "pointer-events-none");
+            el.className =
+              "flex-1 bg-white/10 text-center text-xs font-semibold py-2 rounded-lg pointer-events-none";
           }
+          // Atualiza badge
+          const remaining =
+            (client.aprovacoesPendentes || []).filter(
+              (a) =>
+                !a.aprovadoEm &&
+                !localStorage.getItem(`approved_${slug}_${a.id}`)
+            ).length;
+          updatePendingBadge(remaining);
+          updateFavicon(remaining);
         }, 100);
       });
     });
+  }
+
+  function updatePendingBadge(count) {
+    const badge = qs("#pendingBadge");
+    if (!badge) return;
+    if (count > 0) {
+      badge.classList.remove("hidden");
+      badge.textContent = count;
+    } else {
+      badge.classList.add("hidden");
+    }
   }
 
   // ==========================================================
@@ -936,6 +1129,133 @@
   });
 
   // ==========================================================
+  //  COMMAND PALETTE (Cmd+K / Ctrl+K)
+  // ==========================================================
+  const paletteItems = Object.entries(LABELS).map(([id, label]) => ({
+    id,
+    label,
+    type: "section",
+  }));
+  paletteItems.push(
+    { id: "_insta", label: "Abrir Instagram do cliente", type: "action", url: client.instagramUrl },
+    { id: "_wa", label: "Mandar mensagem no WhatsApp da Arvic", type: "action", url: wa(CFG.whatsapp, `Oi, time Arvic!\n\n— ${client.nomeCurto || client.nome}`) },
+    { id: "_logout", label: "Sair do portal", type: "logout" }
+  );
+
+  let paletteIndex = 0;
+  function openPalette() {
+    const p = qs("#palette");
+    p.classList.remove("hidden");
+    qs("#paletteInput").value = "";
+    paletteIndex = 0;
+    renderPaletteList("");
+    setTimeout(() => qs("#paletteInput").focus(), 50);
+  }
+  function closePalette() {
+    qs("#palette").classList.add("hidden");
+  }
+  function renderPaletteList(query) {
+    const q = query.trim().toLowerCase();
+    const items = paletteItems.filter(
+      (it) => !it.url || it.type !== "action" || it.url
+    );
+    const matched = q
+      ? items.filter((it) => it.label.toLowerCase().includes(q))
+      : items;
+    const list = qs("#paletteList");
+    if (!matched.length) {
+      list.innerHTML = `<div class="palette-item text-slate-500">Sem resultados</div>`;
+      return;
+    }
+    list.innerHTML = matched
+      .map(
+        (it, i) => `
+        <div class="palette-item ${i === paletteIndex ? "active" : ""}" data-pidx="${i}" data-pid="${esc(
+          it.id
+        )}" data-ptype="${esc(it.type)}" ${
+          it.url ? `data-purl="${esc(it.url)}"` : ""
+        }>
+          <svg class="h-3.5 w-3.5 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="flex-1">${esc(it.label)}</span>
+          <span class="text-[10px] text-slate-500 uppercase tracking-wider">${
+            it.type === "section" ? "Seção" : it.type === "logout" ? "Sair" : "Ação"
+          }</span>
+        </div>`
+      )
+      .join("");
+    qsa("[data-pidx]", list).forEach((el) =>
+      el.addEventListener("click", () => execPaletteItem(el))
+    );
+  }
+  function execPaletteItem(el) {
+    const type = el.dataset.ptype;
+    const id = el.dataset.pid;
+    const url = el.dataset.purl;
+    closePalette();
+    if (type === "section") {
+      showView(id);
+    } else if (type === "action" && url) {
+      window.open(url, "_blank", "noopener");
+    } else if (type === "logout") {
+      localStorage.removeItem("arvic_session_" + slug);
+      window.location.href = "index.html";
+    }
+  }
+
+  document.addEventListener("keydown", (e) => {
+    const isMeta = e.metaKey || e.ctrlKey;
+    if (isMeta && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      openPalette();
+      return;
+    }
+    if (!qs("#palette").classList.contains("hidden")) {
+      if (e.key === "Escape") {
+        closePalette();
+      } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        const list = qs("#paletteList");
+        const items = qsa("[data-pidx]", list);
+        paletteIndex =
+          (paletteIndex + (e.key === "ArrowDown" ? 1 : -1) + items.length) %
+          items.length;
+        items.forEach((el, i) => el.classList.toggle("active", i === paletteIndex));
+        items[paletteIndex].scrollIntoView({ block: "nearest" });
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        const items = qsa("[data-pidx]", qs("#paletteList"));
+        if (items[paletteIndex]) execPaletteItem(items[paletteIndex]);
+      }
+      return;
+    }
+    // Atalhos j/k pra navegar seções
+    if (!e.metaKey && !e.ctrlKey && !e.altKey) {
+      const tag = (e.target && e.target.tagName) || "";
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      const order = Object.keys(LABELS);
+      const active = qs(".side-link.active");
+      const current = active ? order.indexOf(active.dataset.section) : 0;
+      if (e.key === "j" || e.key === "J") {
+        e.preventDefault();
+        showView(order[(current + 1) % order.length]);
+      }
+      if (e.key === "k" || e.key === "K") {
+        e.preventDefault();
+        showView(order[(current - 1 + order.length) % order.length]);
+      }
+    }
+  });
+
+  qs("#paletteInput").addEventListener("input", (e) => {
+    paletteIndex = 0;
+    renderPaletteList(e.target.value);
+  });
+  qs("#palette").addEventListener("click", (e) => {
+    if (e.target.id === "palette") closePalette();
+  });
+  qs("#openPaletteBtn").addEventListener("click", openPalette);
+
+  // ==========================================================
   //  SOBRE ARVIC — CTA
   // ==========================================================
   const sobreCta = qs("#sobreCta");
@@ -949,6 +1269,11 @@
   // ==========================================================
   //  Render inicial
   // ==========================================================
+  // Registra plugins do Chart.js (quando disponíveis via CDN)
+  if (window.Chart && window["chartjs-plugin-annotation"]) {
+    Chart.register(window["chartjs-plugin-annotation"]);
+  }
+
   renderKPIs();
   renderActiveServices();
   renderOverviewAprovacoes();
@@ -961,4 +1286,19 @@
   renderAgenda();
   renderMensagens();
   renderCatalogo();
+
+  // Favicon com contador de aprovações pendentes
+  updateFavicon(pendingCount());
+
+  // Toast de boas-vindas (só na primeira visita)
+  const welcomeKey = "arvic_welcomed_" + slug;
+  if (!localStorage.getItem(welcomeKey)) {
+    setTimeout(() => {
+      toast(`Bem-vindo(a) ao portal, ${firstName}. Aproveita a visita.`, {
+        icon: "👋",
+        duration: 4500,
+      });
+      localStorage.setItem(welcomeKey, "1");
+    }, 900);
+  }
 })();

@@ -70,10 +70,10 @@
             Área exclusiva de cliente
           </div>
           <h1
-            class="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tight"
+            class="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tight min-h-[240px] md:min-h-[320px]"
           >
-            Tudo que a gente<br />está construindo<br />com você,<br />
-            <span class="text-brand-500">em um só lugar.</span>
+            <span id="heroTypewriter" class="typewriter"></span><br />
+            <span id="heroAccent" class="text-brand-500 opacity-0 transition-opacity duration-700">em um só lugar.</span>
           </h1>
           <p class="mt-6 text-slate-400 text-lg leading-relaxed max-w-xl">
             Entregas, crescimento no Instagram, aprovação de vídeos e um canal
@@ -118,7 +118,7 @@
               </label>
               <button
                 type="submit"
-                class="w-full bg-brand-500 hover:bg-brand-600 active:scale-[0.98] transition text-ink-900 font-semibold rounded-lg py-2.5 text-sm"
+                class="w-full btn-primary rounded-lg py-2.5 text-sm"
               >
                 Entrar no portal
               </button>
@@ -136,7 +136,7 @@
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(63,160,149,0.22),transparent_55%)]"></div>
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(242,148,66,0.12),transparent_50%)]"></div>
             <div class="relative h-full flex flex-col">
-              <div class="brand-lockup h-44 -mt-2 mb-4" role="img" aria-label="Arvic Group"></div>
+              <div class="brand-lockup watermark-float h-44 -mt-2 mb-4" role="img" aria-label="Arvic Group"></div>
               <div class="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent mb-5"></div>
               <div class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-4">
                 Você vai encontrar
@@ -178,6 +178,31 @@
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
       if (window.AOS) AOS.init({ duration: 600, easing: "ease-out-cubic", once: true });
+
+      // Typewriter no headline
+      (function () {
+        const target = document.getElementById("heroTypewriter");
+        const accent = document.getElementById("heroAccent");
+        if (!target) return;
+        const text = "Tudo que a gente está\nconstruindo com você,";
+        let i = 0;
+        function type() {
+          if (i >= text.length) {
+            target.classList.add("done");
+            if (accent) accent.classList.remove("opacity-0");
+            return;
+          }
+          const ch = text[i];
+          if (ch === "\n") {
+            target.innerHTML += "<br />";
+          } else {
+            target.append(ch);
+          }
+          i++;
+          setTimeout(type, 38 + Math.random() * 30);
+        }
+        setTimeout(type, 450);
+      })();
 
       document.getElementById("loginForm").addEventListener("submit", (e) => {
         e.preventDefault();
