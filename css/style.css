@@ -102,7 +102,7 @@ section[data-view] {
   background: linear-gradient(
     105deg,
     transparent 20%,
-    rgba(63, 160, 149, 0.08) 50%,
+    rgba(255, 255, 255, 0.07) 50%,
     transparent 80%
   );
   animation: shimmerSlide 5.5s ease-in-out infinite;
@@ -126,7 +126,7 @@ section[data-view] {
   letter-spacing: 0.01em;
   white-space: nowrap;
 }
-.chip-ativo     { background: rgba(63, 160, 149, 0.14); color: #5cc2b6; }
+.chip-ativo     { background: rgba(226, 232, 240, 0.10); color: #e2e8f0; border: 1px solid rgba(226, 232, 240, 0.18); padding: 0.06rem 0.5rem; }
 .chip-planejado { background: rgba(96, 165, 250, 0.14); color: #60a5fa; }
 .chip-em-revisao{ background: rgba(234, 179, 8, 0.14);  color: #facc15; }
 .chip-concluido { background: rgba(148, 163, 184, 0.14); color: #cbd5e1; }
@@ -149,8 +149,8 @@ section[data-view] {
 .side-link:hover  { background: rgba(255, 255, 255, 0.05); color: #fff; }
 .side-link:active { transform: translateX(1px); }
 .side-link.active {
-  background: rgba(63, 160, 149, 0.15);
-  color: #6ed0c4;
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
 }
 .side-link.active::before {
   content: "";
@@ -160,7 +160,7 @@ section[data-view] {
   bottom: 20%;
   width: 3px;
   border-radius: 0 4px 4px 0;
-  background: #3fa095;
+  background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
 }
 
 /* CARDS */
@@ -168,7 +168,7 @@ section[data-view] {
   transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
 }
 .kpi-card:hover {
-  border-color: rgba(63, 160, 149, 0.35);
+  border-color: rgba(255, 255, 255, 0.25);
   background: rgba(255, 255, 255, 0.03);
   transform: translateY(-2px);
 }
@@ -181,7 +181,7 @@ section[data-view] {
   background: rgba(255, 255, 255, 0.03);
 }
 .svc-locked       { opacity: 0.72; }
-.svc-locked:hover { opacity: 1; border-color: rgba(63, 160, 149, 0.35); }
+.svc-locked:hover { opacity: 1; border-color: rgba(255, 255, 255, 0.22); }
 
 .video-card {
   transition: transform 0.25s ease, border-color 0.25s ease;
@@ -189,21 +189,23 @@ section[data-view] {
 .video-card:hover { transform: translateY(-2px); }
 
 /* DELTAS */
-.delta-up      { color: #5cc2b6; }
+.delta-up      { color: #e2e8f0; }
 .delta-down    { color: #f87171; }
 .delta-neutral { color: #94a3b8; }
 
-/* BOTÕES CTA COM GRADIENTE */
+/* BOTÕES CTA — gradient prata/cinza seguindo o princípio da logo Arvic */
 .btn-primary {
-  background: linear-gradient(135deg, #3FA095 0%, #2E8A7F 100%);
+  background: linear-gradient(180deg, #cbd5e1 0%, #f1f5f9 100%);
   color: #0b0f1a;
   font-weight: 600;
   transition: transform 0.18s ease, box-shadow 0.2s ease, filter 0.2s ease;
-  box-shadow: 0 4px 14px rgba(63, 160, 149, 0.2);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 .btn-primary:hover {
-  filter: brightness(1.08);
-  box-shadow: 0 6px 20px rgba(63, 160, 149, 0.32);
+  filter: brightness(1.06);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
   transform: translateY(-1px);
 }
 .btn-primary:active {
@@ -224,7 +226,7 @@ section[data-view] {
 }
 .toast {
   background: #0b0f1a;
-  border: 1px solid rgba(63, 160, 149, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   color: #e2e8f0;
   font-size: 0.875rem;
   padding: 0.75rem 1rem 0.75rem 0.85rem;
@@ -245,8 +247,8 @@ section[data-view] {
   height: 1.75rem;
   width: 1.75rem;
   border-radius: 9999px;
-  background: rgba(63, 160, 149, 0.18);
-  color: #5cc2b6;
+  background: rgba(255, 255, 255, 0.10);
+  color: #e2e8f0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -291,7 +293,7 @@ section[data-view] {
   font-size: 0.875rem;
 }
 .palette-item:hover, .palette-item.active {
-  background: rgba(63, 160, 149, 0.14);
+  background: rgba(255, 255, 255, 0.08);
   color: #fff;
 }
 .kbd {
@@ -326,7 +328,7 @@ section[data-view] {
   content: "|";
   display: inline-block;
   margin-left: 2px;
-  color: #3FA095;
+  color: #cbd5e1;
   animation: caret 0.9s step-start infinite;
 }
 .typewriter.done::after { display: none; }
@@ -336,7 +338,7 @@ section[data-view] {
 
 /* FOCUS */
 *:focus-visible {
-  outline: 2px solid rgba(63, 160, 149, 0.6);
+  outline: 2px solid rgba(255, 255, 255, 0.45);
   outline-offset: 2px;
   border-radius: 6px;
 }

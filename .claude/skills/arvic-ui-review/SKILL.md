@@ -9,9 +9,10 @@ Review the target HTML/CSS against the Arvic portal's design system. Be direct a
 
 ## Design system (authoritative)
 
-- **Background**: `#0b0f1a` (ink-900) with subtle dot pattern (`.body` in style.css)
-- **Brand teal**: `#3FA095` (brand-500), darker `#2E8A7F`, even darker `#1F746A`
-- **Accent orange**: `#F29442` (accent-500) — use sparingly for highlights (charts, marcos, badges), not for primary CTAs
+- **Background**: `#0b0f1a` (ink-900) with subtle dot pattern (body)
+- **Princípio de cor**: monocromático cinza (segue o degrade da logo Arvic). Paleta primária = slate/white. Sem teal exceto em data viz raramente.
+- **Silver gradient** (CTAs, acentos visuais): `linear-gradient(180deg, #cbd5e1 → #f1f5f9)` — mais escuro em cima, claro embaixo, como a logo.
+- **Accent orange**: `#F29442` (accent-500) — uso raro: badge de notificação, linha de meta no gráfico. Nunca em CTA primária.
 - **Typography**: Inter for body, Plus Jakarta Sans for `.font-display` headings. Tracking-tight on large headings.
 - **Radius scale**: `rounded-lg` (0.5rem) for small buttons, `rounded-2xl` (1rem) for cards, `rounded-3xl` (1.5rem) for hero containers. Do not use `rounded-md` or other in-between values.
 - **Spacing scale**: 4 / 8 / 12 / 16 / 20 / 24 / 32 / 40 (Tailwind units 1, 2, 3, 4, 5, 6, 8, 10). Avoid off-scale values like 7, 9, 11.
@@ -20,8 +21,8 @@ Review the target HTML/CSS against the Arvic portal's design system. Be direct a
 
 ## AI-slop patterns to flag and eliminate
 
-- Generic purple gradient (`from-purple-*` to `from-pink-*`)
-- Overused rainbow CSS
+- Generic purple/pink gradients (`from-purple-*`, `from-pink-*`)
+- **Uso excessivo de teal/green** — a identidade Arvic é monocromática cinza. Teal só em data viz excepcional.
 - "Shiny" emojis as primary decoration
 - Default Inter everywhere (we use Plus Jakarta Sans on display headings — enforce it)
 - Every card with identical `rounded-2xl bg-white/5 border border-white/10 p-6` without intent

@@ -319,7 +319,7 @@
       .map(
         (s) => `
         <li class="flex items-start gap-2 text-sm">
-          <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0"></span>
+          <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-white/60 shrink-0"></span>
           <div>
             <div class="font-medium">${esc(s.titulo)}</div>
             <div class="text-xs text-slate-400">${esc(s.categoria)}</div>
@@ -376,7 +376,7 @@
       .map(
         (a) => `
         <li class="flex items-center gap-3 text-sm">
-          <div class="h-2 w-2 rounded-full bg-brand-500 shrink-0"></div>
+          <div class="h-2 w-2 rounded-full bg-white/60 shrink-0"></div>
           <div class="min-w-0 flex-1">
             <div class="truncate">${esc(a.titulo)}</div>
             <div class="text-xs text-slate-400">${fmt.dateTime(a.data)}</div>
@@ -420,7 +420,7 @@
 
     if (primeiro) {
       const ganho = atual - Number(primeiro.seguidores);
-      qs("#igGanho").innerHTML = `<span class="${ganho >= 0 ? "text-brand-500" : "delta-down"}">${
+      qs("#igGanho").innerHTML = `<span class="${ganho >= 0 ? "text-slate-200" : "delta-down"}">${
         ganho >= 0 ? "+" : ""
       }${fmt.num(ganho)}</span>`;
       qs("#igPeriodo").textContent = `Desde ${fmt.mes(primeiro.mes)}`;
@@ -449,8 +449,8 @@
     const labels = hist.map((h) => fmt.mesCurto(h.mes));
     const ctx = canvas.getContext("2d");
     const g1 = ctx.createLinearGradient(0, 0, 0, 300);
-    g1.addColorStop(0, "rgba(63,160,149,0.4)");
-    g1.addColorStop(1, "rgba(63,160,149,0)");
+    g1.addColorStop(0, "rgba(226,232,240,0.35)");
+    g1.addColorStop(1, "rgba(226,232,240,0)");
 
     const meta = Number(client.jornadaInstagram?.metaSeguidores) || 0;
     const annotations = {};
@@ -498,14 +498,14 @@
           {
             label: "Seguidores",
             data: hist.map((h) => Number(h.seguidores) || 0),
-            borderColor: "#3FA095",
+            borderColor: "#e2e8f0",
             backgroundColor: g1,
             tension: 0.4,
             borderWidth: 2.5,
             fill: true,
             pointRadius: 4,
             pointHoverRadius: 7,
-            pointBackgroundColor: "#3FA095",
+            pointBackgroundColor: "#e2e8f0",
             pointBorderColor: "#0b0f1a",
             pointBorderWidth: 2,
           },
@@ -557,7 +557,7 @@
       .map(
         (m) => `
         <li class="pl-6 relative">
-          <div class="absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full bg-brand-500 ring-4 ring-ink-900"></div>
+          <div class="absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full bg-white/80 ring-4 ring-ink-900"></div>
           <div class="text-xs text-slate-400">${fmt.date(m.data)}</div>
           <div class="font-display font-bold mt-0.5">${esc(m.titulo)}</div>
           ${m.descricao ? `<div class="text-sm text-slate-300 mt-1">${esc(m.descricao)}</div>` : ""}
@@ -582,8 +582,8 @@
     if (overviewChart) overviewChart.destroy();
     const ctx = canvas.getContext("2d");
     const g1 = ctx.createLinearGradient(0, 0, 0, 250);
-    g1.addColorStop(0, "rgba(63,160,149,0.35)");
-    g1.addColorStop(1, "rgba(63,160,149,0)");
+    g1.addColorStop(0, "rgba(226,232,240,0.30)");
+    g1.addColorStop(1, "rgba(226,232,240,0)");
     overviewChart = new Chart(ctx, {
       type: "line",
       data: {
@@ -592,14 +592,14 @@
           {
             label: "Seguidores",
             data: hist.map((h) => Number(h.seguidores) || 0),
-            borderColor: "#3FA095",
+            borderColor: "#e2e8f0",
             backgroundColor: g1,
             tension: 0.4,
             borderWidth: 2.5,
             fill: true,
             pointRadius: 3,
             pointHoverRadius: 5,
-            pointBackgroundColor: "#3FA095",
+            pointBackgroundColor: "#e2e8f0",
           },
         ],
       },
@@ -669,7 +669,7 @@
         return `
           <button data-month="${esc(m)}" class="shrink-0 px-3.5 py-2 rounded-lg text-sm font-medium transition ${
           active
-            ? "bg-brand-500/15 text-brand-500 border border-brand-500/30"
+            ? "bg-white/10 text-white border border-white/20"
             : "bg-white/[0.02] border border-white/10 text-slate-300 hover:bg-white/[0.04]"
         }">${fmt.mesCurto(m)}</button>`;
       })
@@ -711,7 +711,7 @@
     const vids = (data.videos || [])
       .map(
         (v) => `
-        <div class="video-card group bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden hover:border-brand-500/40 transition" data-type="videos" x-show="filter === 'todos' || filter === 'videos'">
+        <div class="video-card group bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden hover:border-white/25 transition" data-type="videos" x-show="filter === 'todos' || filter === 'videos'">
           <a href="${driveOpen(v.driveId)}" target="_blank" rel="noopener" class="block aspect-video bg-black/40 relative overflow-hidden">
             ${
               v.driveId
@@ -746,9 +746,9 @@
         (r) => `
         <a href="${esc(r.driveLink || "#")}" ${
           r.driveLink ? 'target="_blank" rel="noopener"' : ""
-        } class="block bg-white/[0.02] border border-white/10 rounded-2xl p-5 hover:border-brand-500/40 transition" data-type="roteiros" x-show="filter === 'todos' || filter === 'roteiros'">
+        } class="block bg-white/[0.02] border border-white/10 rounded-2xl p-5 hover:border-white/25 transition" data-type="roteiros" x-show="filter === 'todos' || filter === 'roteiros'">
           <div class="flex items-start gap-3">
-            <div class="h-9 w-9 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-500 shrink-0">
+            <div class="h-9 w-9 rounded-lg bg-white/5 flex items-center justify-center text-slate-300 shrink-0">
               <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h6"/></svg>
             </div>
             <div class="flex-1 min-w-0">
@@ -767,7 +767,7 @@
         (a) => `
         <a href="${esc(a.driveLink || "#")}" ${
           a.driveLink ? 'target="_blank" rel="noopener"' : ""
-        } class="block bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden hover:border-brand-500/40 transition" data-type="artes" x-show="filter === 'todos' || filter === 'artes'">
+        } class="block bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden hover:border-white/25 transition" data-type="artes" x-show="filter === 'todos' || filter === 'artes'">
           ${
             a.thumbId
               ? `<div class="aspect-square bg-black/30"><img src="${driveThumb(
@@ -937,7 +937,7 @@
           .replace(".", "");
         return `
         <div class="flex items-start gap-4 p-4 rounded-xl border border-white/10 bg-white/[0.02]">
-          <div class="flex flex-col items-center justify-center h-14 w-14 rounded-lg bg-brand-500/10 border border-brand-500/30 text-brand-500 shrink-0">
+          <div class="flex flex-col items-center justify-center h-14 w-14 rounded-lg bg-white/5 border border-white/15 text-slate-200 shrink-0">
             <div class="text-[10px] uppercase tracking-wider">${mesNome}</div>
             <div class="font-display font-extrabold text-lg leading-none">${d.getDate()}</div>
           </div>
@@ -1012,7 +1012,7 @@
       .map(
         (m, i) => `
         <a href="${wa(CFG.whatsapp, m.msg())}" target="_blank" rel="noopener"
-          class="block bg-white/[0.02] border border-white/10 rounded-2xl p-5 hover:border-brand-500/40 hover:bg-white/[0.04] transition" data-aos="fade-up" data-aos-delay="${
+          class="block bg-white/[0.02] border border-white/10 rounded-2xl p-5 hover:border-white/25 hover:bg-white/[0.04] transition" data-aos="fade-up" data-aos-delay="${
             i * 60
           }">
           <div class="flex items-start gap-4">
@@ -1053,7 +1053,7 @@
           <div class="svc-card ${
             ativo ? "" : "svc-locked"
           } bg-white/[0.02] border ${
-          ativo ? "border-brand-500/40" : "border-white/10"
+          ativo ? "border-white/25" : "border-white/10"
         } rounded-2xl p-5 flex flex-col" data-aos="fade-up" data-aos-delay="${
           (i % 6) * 50
         }" x-show="${showExpr}">
@@ -1070,7 +1070,7 @@
             ${
               !ativo
                 ? `<a href="${waLink}" target="_blank" rel="noopener"
-                  class="mt-4 inline-flex items-center gap-1.5 text-xs text-brand-500 hover:text-brand-600 font-semibold">
+                  class="mt-4 inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-white font-semibold">
                     Conversar sobre essa solução
                     <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </a>`

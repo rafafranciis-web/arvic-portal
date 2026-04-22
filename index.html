@@ -37,8 +37,8 @@
   <body class="bg-ink-900 text-slate-100 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
     <!-- Ambient background -->
     <div class="pointer-events-none absolute inset-0 opacity-60">
-      <div class="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-brand-500/10 blur-3xl"></div>
-      <div class="absolute top-1/2 -right-40 h-[500px] w-[500px] rounded-full bg-accent-500/5 blur-3xl"></div>
+      <div class="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-white/[0.06] blur-3xl"></div>
+      <div class="absolute top-1/2 -right-40 h-[500px] w-[500px] rounded-full bg-white/[0.03] blur-3xl"></div>
     </div>
 
     <header class="relative px-6 md:px-10 py-5 flex items-center justify-between">
@@ -65,15 +65,15 @@
     <main class="relative flex-1 flex items-center py-12">
       <div class="w-full max-w-6xl mx-auto px-6 md:px-10 grid md:grid-cols-5 gap-10 items-center">
         <section class="md:col-span-3" data-aos="fade-right" data-aos-duration="700">
-          <div class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-brand-500 mb-5">
-            <span class="h-1.5 w-1.5 rounded-full bg-brand-500 animate-pulse"></span>
+          <div class="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-slate-300 mb-5">
+            <span class="h-1.5 w-1.5 rounded-full bg-white/70 animate-pulse"></span>
             Área exclusiva de cliente
           </div>
           <h1
             class="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tight min-h-[240px] md:min-h-[320px]"
           >
             <span id="heroTypewriter" class="typewriter"></span><br />
-            <span id="heroAccent" class="text-brand-500 opacity-0 transition-opacity duration-700">em um só lugar.</span>
+            <span id="heroAccent" class="bg-gradient-to-br from-white via-slate-300 to-slate-500 bg-clip-text text-transparent opacity-0 transition-opacity duration-700">em um só lugar.</span>
           </h1>
           <p class="mt-6 text-slate-400 text-lg leading-relaxed max-w-xl">
             Entregas, crescimento no Instagram, aprovação de vídeos e um canal
@@ -101,7 +101,7 @@
                   id="clientCode"
                   placeholder="ex: instituto-caquetti"
                   autocomplete="off"
-                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/60 focus:border-transparent transition"
+                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition"
                   required
                 />
               </label>
@@ -112,7 +112,7 @@
                 <input
                   type="password"
                   id="clientPassword"
-                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/60 focus:border-transparent transition"
+                  class="w-full bg-ink-800 border border-white/10 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition"
                   required
                 />
               </label>
@@ -131,35 +131,35 @@
 
         <aside class="md:col-span-2 hidden md:block" data-aos="fade-left" data-aos-delay="200">
           <div
-            class="relative aspect-[4/5] rounded-3xl bg-gradient-to-br from-white/[0.04] via-white/[0.02] to-transparent border border-white/10 overflow-hidden p-8"
+            class="relative aspect-[4/5] rounded-3xl bg-gradient-to-br from-white/[0.06] via-white/[0.02] to-transparent border border-white/10 overflow-hidden p-8"
           >
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(63,160,149,0.22),transparent_55%)]"></div>
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(242,148,66,0.12),transparent_50%)]"></div>
-            <div class="relative h-full flex flex-col">
-              <div class="brand-lockup watermark-float h-44 -mt-2 mb-4" role="img" aria-label="Arvic Group"></div>
-              <div class="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent mb-5"></div>
-              <div class="text-xs uppercase tracking-[0.2em] text-slate-400 mb-4">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.08),transparent_55%)]"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_90%,rgba(242,148,66,0.08),transparent_55%)]"></div>
+            <div class="relative h-full flex flex-col items-center text-center">
+              <div class="brand-lockup watermark-float h-56 w-56 mx-auto -mt-4 mb-6" role="img" aria-label="Arvic Group"></div>
+              <div class="w-24 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent mb-6"></div>
+              <div class="text-[11px] uppercase tracking-[0.25em] text-slate-400 mb-5">
                 Você vai encontrar
               </div>
-              <ul class="space-y-3 text-slate-200 text-sm">
+              <ul class="space-y-3 text-slate-200 text-sm text-left w-full max-w-xs">
                 <li class="flex items-start gap-2.5">
-                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0"></span>
+                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-white/60 shrink-0"></span>
                   <span>Crescimento do seu Instagram mês a mês</span>
                 </li>
                 <li class="flex items-start gap-2.5">
-                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0"></span>
+                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-white/60 shrink-0"></span>
                   <span>Biblioteca com tudo que a gente já produziu</span>
                 </li>
                 <li class="flex items-start gap-2.5">
-                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0"></span>
+                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-white/60 shrink-0"></span>
                   <span>Aprovação de vídeo em um clique</span>
                 </li>
                 <li class="flex items-start gap-2.5">
-                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0"></span>
+                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-white/60 shrink-0"></span>
                   <span>Canal direto com o time Arvic</span>
                 </li>
                 <li class="flex items-start gap-2.5">
-                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500 shrink-0"></span>
+                  <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-white/60 shrink-0"></span>
                   <span>Próximos encontros e entregas no radar</span>
                 </li>
               </ul>
